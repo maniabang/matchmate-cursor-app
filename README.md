@@ -7,51 +7,40 @@ Next.js 기반의 PWA 앱으로, Supabase를 이용한 인증과 실시간 기�
 
 > 이 프로젝트는 이직용 포트폴리오로 제작되었으며, 실사용 가능한 수준의 구조와 기술 선택을 지향합니다.
 
----
+## 🎨 디자인
+- [Figma 디자인 링크](https://www.figma.com/design/ywHlf170eMP1f15YoIKz5J/%EC%A0%9C%EB%AA%A9-%EC%97%86%EC%9D%8C?node-id=5-38&t=3LAkKiBrk5bGWKln-4)
 
-## 🧱 기술 스택 개요
+## Getting Started
 
-### 🖥️ 프론트엔드
-| 기술 | 설명 |
-|------|------|
-| **Next.js (App Router)** | React 기반 풀스택 프레임워크, PWA와 SSR에 최적화 |
-| **TypeScript** | 타입 안정성과 개발 생산성을 위한 선택 |
-| **Tailwind CSS** | 빠르고 일관된 UI 구현을 위한 유틸리티 퍼스트 CSS 프레임워크 |
-| **shadcn/ui** | 아름답고 접근성 높은 컴포넌트 기반 UI 라이브러리 |
-| **Framer Motion** | 매끄러운 UI 애니메이션 구현용 |
-| **React Query** (또는 TanStack Query) | 서버 상태를 효율적으로 관리하기 위한 데이터 fetching 툴 |
-| **PWA (next-pwa)** | 앱처럼 설치 가능한 웹 앱 형태로 제공 (오프라인 지원 포함) |
-
----
-
-### 🧩 백엔드 / 서비스
-| 기술 | 설명 |
-|------|------|
-| **Supabase** | PostgreSQL 기반 오픈소스 백엔드 플랫폼 - 인증, DB, 스토리지, 실시간 기능 제공 |
-| - Auth | 이메일/비밀번호 및 소셜 로그인(OAuth) 지원 |
-| - Realtime | 채팅, 매칭 등 실시간 동기화 기능에 활용 |
-| - Storage | 유저 프로필 사진 등 파일 저장용 |
-
----
-
-### 🚀 배포 / 개발환경
-| 항목 | 설명 |
-|------|------|
-| **Vercel** | Next.js에 최적화된 무료 배포 플랫폼 |
-| **Cursor IDE** | AI 기반의 생산성 높은 개발 환경 |
-| **GitHub** | 버전 관리 및 오픈소스 협업 플랫폼 |
-
----
-
-## 📂 폴더 구조 (예정)
+First, run the development server:
 
 ```bash
-matchmate-cursor-app/
-├── app/              # Next.js App Router 기반 페이지
-├── components/       # UI 컴포넌트
-├── lib/              # Supabase, 유틸 등 공통 로직
-├── styles/           # 글로벌 스타일 정의
-├── public/           # 정적 자산
-├── types/            # 타입 정의
-├── supabase/         # Supabase 클라이언트 설정
-└── ...
+npm run dev
+# or
+yarn dev
+# or
+pnpm dev
+# or
+bun dev
+```
+
+Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+
+You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+
+This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+
+## Learn More
+
+To learn more about Next.js, take a look at the following resources:
+
+- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
+- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+
+You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+
+## Deploy on Vercel
+
+The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+
+Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
