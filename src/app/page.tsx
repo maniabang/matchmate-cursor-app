@@ -2,61 +2,38 @@ import Image from "next/image";
 
 export default function Home() {
   return (
-    <div className="relative w-[390px] h-[844px] bg-[#F1F1F1]">
-      {/* 상단 네비게이션 바 */}
-      <nav className="absolute w-[390px] h-[60px] left-0 top-0 bg-white flex flex-row justify-between items-center px-4 py-2.5">
-        <div className="m-auto w-[140px] h-[34px] font-bold text-[28px] leading-[34px] text-[#F55C57]">
-          MatchMate
-        </div>
-        <div className="m-auto w-10 h-10 bg-[#CCCCCC] rounded-full" />
-      </nav>
+    <div style={{ display: 'flex', flexDirection: 'column', minHeight: '100vh', background: '#fff' }}>
+      {/* 상단바 */}
+      <header style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '16px 20px', borderBottom: '1px solid #eee' }}>
+        <span style={{ fontSize: '1.5rem', fontWeight: 'bold', color: '#EBA8A6' }}>LoveAagain</span>
+        <button style={{ background: 'none', border: 'none', fontSize: '1.2rem', cursor: 'pointer', color: '#EBA8A6' }}>👤</button>
+      </header>
 
-      {/* 메인 카드 */}
-      <div className="absolute w-[350px] h-[600px] left-5 top-20 bg-white border border-[#E6E6E6] rounded-[20px] flex flex-col items-center p-2.5">
-        {/* 프로필 이미지 */}
-        <div className="w-[350px] h-[450px] bg-[#E6E6E6]" />
-
-        {/* 프로필 정보 */}
-        <div className="w-[350px] h-[150px] bg-white flex flex-col items-start p-4 pt-4 pb-2.5">
-          <div className="w-[86px] h-[29px] font-bold text-2xl leading-[29px] text-[#1A1A1A]">
-            김지민, 28
-          </div>
-          <div className="w-[108px] h-[19px] text-base leading-[19px] text-[#808080]">
-            UI/UX 디자이너
-          </div>
-          <div className="w-[439px] h-[17px] text-sm leading-[17px] text-[#4D4D4D]">
-            안녕하세요! 새로운 사람들과 만나는 것을 좋아합니다.
+      {/* 카드 스와이프 영역 */}
+      <section style={{ flex: 1, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center' }}>
+        <div style={{ width: 320, height: 420, background: '#f5f5f5', borderRadius: 24, boxShadow: '0 4px 16px rgba(0,0,0,0.08)', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'flex-end', overflow: 'hidden', position: 'relative' }}>
+          <Image src="/images/IMG_503.JPG" alt="유저 이미지" width={320} height={294} style={{ width: '100%', height: '70%', objectFit: 'cover' }} />
+          <div style={{ width: '100%', padding: '20px 16px 24px 16px', background: 'rgba(255,255,255,0.95)', borderBottomLeftRadius: 24, borderBottomRightRadius: 24 }}>
+            <span style={{ fontSize: '1.2rem', fontWeight: 600, color: '#EBA8A6' }}>이광훈, 35</span><br />
+            <span style={{ fontSize: '1rem', color: '#EBA8A6' }}>수원, 개발자</span>
           </div>
         </div>
-      </div>
+        {/* 추가 카드가 있다면 아래에 쌓이도록 배치 */}
+      </section>
 
-      {/* 액션 버튼 영역 */}
-      <div className="absolute w-[390px] h-[100px] left-0 top-[700px] bg-white flex flex-row justify-center items-center p-2.5 gap-5">
-        {/* 거절 버튼 */}
-        <button className="w-[60px] h-[60px] bg-white border-2 border-[#E64D4D] rounded-[30px] flex flex-col justify-center items-center p-2.5">
-          <span className="w-[21px] h-[34px] font-bold text-[28px] leading-[34px] text-[#E64D4D]">
-            ✕
-          </span>
-        </button>
-
-        {/* 좋아요 버튼 */}
-        <button className="w-[60px] h-[60px] bg-white border-2 border-[#4DE680] rounded-[30px] flex flex-col justify-center items-center p-2.5">
-          <span className="w-[29px] h-[34px] font-bold text-[28px] leading-[34px] text-[#4DE680]">
-            ♥
-          </span>
-        </button>
-      </div>
-
-      {/* 하단 탭 네비게이션 */}
-      <nav className="absolute w-[390px] h-[60px] left-0 top-[784px] bg-white border border-[#E6E6E6] flex flex-row justify-between items-center p-2.5">
-        <div className="m-auto w-[26px] h-[29px] text-2xl leading-[29px] text-[#F55C57]">
-          🏠
+      {/* 하단 탭 네비게이션 바 */}
+      <nav style={{ height: 60, display: 'flex', justifyContent: 'space-around', alignItems: 'center', borderTop: '1px solid #eee', background: '#fff' }}>
+        <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', flex: 1 }}>
+          <span style={{ fontSize: '1.5rem', color: '#EBA8A6' }}>🏠</span>
+          <span style={{ fontSize: '0.85rem', marginTop: 2, color: '#EBA8A6' }}>홈</span>
         </div>
-        <div className="m-auto w-[23px] h-[29px] text-2xl leading-[29px] text-[#B3B3B3]">
-          💬
+        <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', flex: 1 }}>
+          <span style={{ fontSize: '1.5rem', color: '#CCCCCC' }}>💬</span>
+          <span style={{ fontSize: '0.85rem', marginTop: 2, color: '#CCCCCC' }}>메시지</span>
         </div>
-        <div className="m-auto w-[26px] h-[29px] text-2xl leading-[29px] text-[#B3B3B3]">
-          👤
+        <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', flex: 1 }}>
+          <span style={{ fontSize: '1.5rem', color: '#CCCCCC' }}>❤️</span>
+          <span style={{ fontSize: '0.85rem', marginTop: 2, color: '#CCCCCC' }}>매치</span>
         </div>
       </nav>
     </div>
