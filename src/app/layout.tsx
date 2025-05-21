@@ -2,14 +2,11 @@ import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
 
-const inter = Inter({
-  subsets: ["latin"],
-  variable: "--font-inter",
-});
+const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
   title: "MatchMate",
-  description: "소개팅 기반 매칭 플랫폼",
+  description: "Find your perfect match",
 };
 
 export default function RootLayout({
@@ -19,7 +16,11 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="ko">
-      <body className={`${inter.variable} font-sans`}>{children}</body>
+      <body className={inter.className}>
+        <main className="min-h-screen bg-white">
+          {children}
+        </main>
+      </body>
     </html>
   );
 }

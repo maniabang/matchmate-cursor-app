@@ -8,7 +8,7 @@ Next.js 기반의 PWA 앱으로, Supabase를 이용한 인증과 실시간 기�
 > 이 프로젝트는 실사용 가능한 수준의 구조와 기술 선택을 지향합니다.
 
 ## 🎨 디자인
-- [Figma 디자인 링크](https://www.figma.com/design/ywHlf170eMP1f15YoIKz5J/%EC%A0%9C%EB%AA%A9-%EC%97%86%EC%9D%8C?node-id=5-38&t=3LAkKiBrk5bGWKln-4)
+- [Figma 디자인 링크](https://www.figma.com/design/ywHlf170eMP1f15YoIKz5J/%EC%A0%9C%EB%AA%A9-%EC%97%86%EC%9D%8C?node-id=5-38&t=PYjXfcpGzsrKXlBT-1)
 
 ## Getting Started
 
