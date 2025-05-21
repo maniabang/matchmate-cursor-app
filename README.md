@@ -5,7 +5,7 @@
 소개팅 기반 매칭 플랫폼 사이드 프로젝트입니다.  
 Next.js 기반의 PWA 앱으로, Supabase를 이용한 인증과 실시간 기능을 포함합니다.
 
-> 이 프로젝트는 이직용 포트폴리오로 제작되었으며, 실사용 가능한 수준의 구조와 기술 선택을 지향합니다.
+> 이 프로젝트는 실사용 가능한 수준의 구조와 기술 선택을 지향합니다.
 
 ## 🎨 디자인
 - [Figma 디자인 링크](https://www.figma.com/design/ywHlf170eMP1f15YoIKz5J/%EC%A0%9C%EB%AA%A9-%EC%97%86%EC%9D%8C?node-id=5-38&t=3LAkKiBrk5bGWKln-4)
