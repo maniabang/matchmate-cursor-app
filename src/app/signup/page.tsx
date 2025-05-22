@@ -1,0 +1,89 @@
+"use client";
+import { useRouter } from "next/navigation";
+import { useState } from "react";
+import SignupForm from "./SignupForm";
+
+export default function Signup() {
+  const router = useRouter();
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [passwordCheck, setPasswordCheck] = useState("");
+
+  return (
+    <div style={{
+      minHeight: '100vh',
+      display: 'flex',
+      flexDirection: 'column',
+      alignItems: 'center',
+      justifyContent: 'center',
+      background: '#FFF6F5',
+      position: 'relative',
+    }}>
+      {/* 뒤로가기 버튼 */}
+      <button
+        onClick={() => router.back()}
+        style={{
+          position: 'absolute',
+          top: 24,
+          left: 20,
+          background: 'none',
+          border: 'none',
+          fontSize: '1.5rem',
+          color: '#EBA8A6',
+          cursor: 'pointer',
+          zIndex: 10,
+          padding: 0,
+        }}
+        aria-label="뒤로가기"
+      >
+        ←
+      </button>
+      {/* 상단 로고 */}
+      <span style={{
+        fontFamily: "'Pretendard', 'Noto Sans KR', Arial, sans-serif",
+        fontWeight: 700,
+        fontSize: '2rem',
+        color: '#EBA8A6',
+        letterSpacing: '-2px',
+        marginBottom: 32,
+        userSelect: 'none',
+      }}>
+        어게인
+      </span>
+      {/* 안내문구 */}
+      <div style={{
+        color: '#222',
+        fontSize: '1.1rem',
+        marginBottom: 32,
+        textAlign: 'center',
+        fontWeight: 500,
+      }}>
+        새로운 인연을 위해<br />회원가입을 해주세요
+      </div>
+      {/* 회원가입 폼 */}
+      <SignupForm
+        email={email}
+        setEmail={setEmail}
+        password={password}
+        setPassword={setPassword}
+        passwordCheck={passwordCheck}
+        setPasswordCheck={setPasswordCheck}
+        onSubmit={e => { e.preventDefault(); router.push('/signup/step1'); }}
+      />
+      {/* 로그인 이동 링크 */}
+      <div style={{
+        marginTop: 24,
+        color: '#888',
+        fontSize: '0.98rem',
+      }}>
+        이미 계정이 있으신가요?{' '}
+        <span
+          style={{ color: '#EBA8A6', cursor: 'pointer', fontWeight: 600 }}
+          onClick={() => router.push('/login')}
+        >
+          로그인
+        </span>
+      </div>
+    </div>
+  );
+} 

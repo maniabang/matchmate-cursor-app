@@ -27,6 +27,14 @@ export default function ProfileView({ profile }: { profile: UserProfile }) {
       <header className="w-full relative flex items-center px-4 py-3 border-b border-gray-100 justify-center">
         <button className="absolute left-4 text-2xl text-[#EBA8A6] cursor-pointer" onClick={() => router.back()}>←</button>
         <span className="text-lg font-bold text-[#EBA8A6]">프로필</span>
+        {profile.id === 'my' && (
+          <button
+            className="absolute right-4 text-base text-[#EBA8A6] border border-[#EBA8A6] rounded-lg px-3 py-1 hover:bg-[#EBA8A6]/10 transition"
+            onClick={() => router.replace('/')}
+          >
+            로그아웃
+          </button>
+        )}
       </header>
       <div className="flex flex-col items-center py-8 px-4 w-full max-w-md mx-auto">
         <div className="w-28 h-28 rounded-full overflow-hidden border border-gray-200 mb-4">
