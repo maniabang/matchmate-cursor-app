@@ -10,7 +10,7 @@ export default function ProfileMain() {
       {/* 프로필 정보 */}
       <section className="profile-info">
         <div className="profile-img">
-          <img src="/images/profile-main.jpg" alt="프로필" />
+          <img src="/images/profile-default-male.svg" alt="프로필" />
         </div>
         <div className="profile-name">이광훈, 35</div>
         <div className="profile-desc">수원, 개발자</div>

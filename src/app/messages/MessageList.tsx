@@ -1,41 +1,36 @@
+"use client";
+
+import MessageItem from './components/MessageItem';
+import { useRouter } from 'next/navigation';
+import { messages } from './mocks/messages';
+
 export default function MessageList() {
+  const router = useRouter();
   return (
-    <div className="message-list-container">
+    <div className="bg-white min-h-screen flex flex-col">
       {/* 상단바 */}
-      <header className="top-bar">
-        <span className="title">메시지</span>
-        <button className="search-btn">🔍</button>
+      <header className="flex items-center px-4 py-3 border-b border-gray-100">
+        <button
+          className="text-2xl text-[#EBA8A6] mr-2"
+          onClick={() => router.back()}
+          aria-label="뒤로가기"
+        >
+          ←
+        </button>
+        <span className="text-lg font-bold text-[#EBA8A6]">메시지</span>
       </header>
 
       {/* 메시지 리스트 */}
-      <ul className="message-list">
-        <li className="message-item">
-          <div className="profile-img">
-            <img src="/images/profile1.jpg" alt="프로필" />
-          </div>
-          <div className="message-info">
-            <div className="message-header">
-              <span className="user-name">홍길동</span>
-              <span className="message-time">오후 2:30</span>
-            </div>
-            <div className="message-preview">안녕하세요! 오늘 약속 괜찮으세요?</div>
-          </div>
-          <div className="unread-badge">2</div>
-        </li>
-        {/* 반복되는 메시지 아이템 예시 */}
-        <li className="message-item">
-          <div className="profile-img">
-            <img src="/images/profile2.jpg" alt="프로필" />
-          </div>
-          <div className="message-info">
-            <div className="message-header">
-              <span className="user-name">김지민</span>
-              <span className="message-time">오후 1:10</span>
-            </div>
-            <div className="message-preview">네! 곧 출발할게요 :)</div>
-          </div>
-          <div className="unread-badge">1</div>
-        </li>
+      <ul className="flex-1 divide-y divide-gray-100">
+        {messages.map((msg) => (
+          <li
+            key={msg.id}
+            className="hover:bg-gray-50 cursor-pointer"
+            onClick={() => router.push(`/messages/${msg.id}`)}
+          >
+            <MessageItem {...msg} />
+          </li>
+        ))}
       </ul>
     </div>
   );
