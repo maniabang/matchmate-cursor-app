@@ -7,7 +7,6 @@ export default function ProfileDetailPage({ params }: { params: { id: string } }
   if (!profile) return <div className="p-8 text-center text-gray-400">프로필 정보를 찾을 수 없습니다.</div>;
   return (
     <>
-      <NavBar title="프로필" />
       <ProfileView profile={profile} />
     </>
   );
