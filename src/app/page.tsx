@@ -36,7 +36,7 @@ export default function Home() {
         {/* 추가 카드가 있다면 아래에 쌓이도록 배치 */}
       </section>
       {/* 하단 탭 네비게이션 바 */}
-      <BottomNav />
+      <BottomNav activeTab="home"/>
     </div>
   );
 }
