@@ -23,11 +23,11 @@ export default function MessageItem({ profile, name, preview, time, unread, id }
         <div className="text-sm text-gray-500 truncate">{preview}</div>
       </div>
       {unread > 0 && (
-        <div className="ml-3 flex-shrink-0">
+      <div className="ml-3 flex-shrink-0">
           <span className="inline-block min-w-[24px] px-2 py-0.5 text-xs text-white bg-[#EBA8A6] rounded-full text-center shadow">
-            {unread}
-          </span>
-        </div>
+          {unread}
+        </span>
+      </div>
       )}
     </div>
   );

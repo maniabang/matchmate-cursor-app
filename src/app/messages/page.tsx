@@ -1,5 +1,11 @@
 import MessageList from './MessageList';
+import NavBar from "../components/NavBar";
 
 export default function MessagesPage() {
-  return <MessageList />;
+  return (
+    <>
+      <NavBar title="메시지" />
+      <MessageList />
+    </>
+  );
 } 

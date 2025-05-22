@@ -27,7 +27,7 @@ export default function MatchesPage() {
             <div className="flex-1 min-w-0">
               <div className="font-semibold text-gray-900 truncate">{user.name}, {user.age}</div>
               <div className="text-sm text-[#EBA8A6] truncate">{user.region}, {user.job}</div>
-            </div>
+      </div>
           </li>
         ))}
       </ul>

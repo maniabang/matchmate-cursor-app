@@ -19,20 +19,24 @@ const HeartIcon = ({ color }: { color: string }) => (
   </svg>
 );
 
-export default function BottomNav() {
+interface BottomNavProps {
+  activeTab?: 'home' | 'messages' | 'match';
+}
+
+export default function BottomNav({ activeTab }: BottomNavProps) {
   return (
     <nav style={{ height: 60, display: 'flex', justifyContent: 'space-around', alignItems: 'center', borderTop: '1px solid #eee', background: '#fff' }}>
       <Link href="/" style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', flex: 1, textDecoration: 'none' }}>
-        <HomeIcon color="#EBA8A6" />
-        <span style={{ fontSize: '0.85rem', marginTop: 2, color: '#EBA8A6' }}>홈</span>
+        <HomeIcon color={activeTab === 'home' ? '#EBA8A6' : '#CCCCCC'} />
+        <span style={{ fontSize: '0.85rem', marginTop: 2, color: activeTab === 'home' ? '#EBA8A6' : '#CCCCCC' }}>홈</span>
       </Link>
       <Link href="/messages" style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', flex: 1, textDecoration: 'none' }}>
-        <MessageIcon color="#CCCCCC" />
-        <span style={{ fontSize: '0.85rem', marginTop: 2, color: '#CCCCCC' }}>메시지</span>
+        <MessageIcon color={activeTab === 'messages' ? '#EBA8A6' : '#CCCCCC'} />
+        <span style={{ fontSize: '0.85rem', marginTop: 2, color: activeTab === 'messages' ? '#EBA8A6' : '#CCCCCC' }}>메시지</span>
       </Link>
       <Link href="/likes/received" style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', flex: 1, textDecoration: 'none' }}>
-        <HeartIcon color="#CCCCCC" />
-        <span style={{ fontSize: '0.85rem', marginTop: 2, color: '#CCCCCC' }}>매치</span>
+        <HeartIcon color={activeTab === 'match' ? '#EBA8A6' : '#CCCCCC'} />
+        <span style={{ fontSize: '0.85rem', marginTop: 2, color: activeTab === 'match' ? '#EBA8A6' : '#CCCCCC' }}>매치</span>
       </Link>
     </nav>
   );

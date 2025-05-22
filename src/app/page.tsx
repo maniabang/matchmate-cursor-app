@@ -3,6 +3,7 @@ import Image from "next/image";
 import Link from "next/link";
 import BottomNav from "./components/BottomNav";
 import { useRouter } from "next/navigation";
+import NavBar from "./components/NavBar";
 
 // 메인 카드용 유저 목데이터
 const mainUser = {
@@ -19,17 +20,7 @@ export default function Home() {
   const profileSrc = mainUser.profile && mainUser.profile.trim() !== '' ? mainUser.profile : "/images/profile-default-female.svg";
   return (
     <div style={{ display: 'flex', flexDirection: 'column', minHeight: '100vh', background: '#fff' }}>
-      {/* 상단바 */}
-      <header style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '16px 20px', borderBottom: '1px solid #eee' }}>
-        <span style={{ fontSize: '1.5rem', fontWeight: 'bold', color: '#EBA8A6' }}>LoveAagain</span>
-        <div
-          style={{ width: 36, height: 36, borderRadius: '50%', overflow: 'hidden', border: '2px solid #A6C8EB', display: 'flex', alignItems: 'center', justifyContent: 'center', cursor: 'pointer' }}
-          onClick={() => router.push('/profile/my')}
-        >
-          <Image src={"/images/profile-default-male.svg"} alt="내 프로필" width={36} height={36} style={{ objectFit: 'cover', width: 36, height: 36 }} />
-        </div>
-      </header>
-
+      <NavBar title="" />
       {/* 카드 스와이프 영역 */}
       <section style={{ flex: 1, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center' }}>
         <div
@@ -44,7 +35,6 @@ export default function Home() {
         </div>
         {/* 추가 카드가 있다면 아래에 쌓이도록 배치 */}
       </section>
-
       {/* 하단 탭 네비게이션 바 */}
       <BottomNav />
     </div>
