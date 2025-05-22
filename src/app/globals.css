@@ -25,3 +25,10 @@ body {
   color: var(--foreground);
   font-family: 'Noto Sans KR', Arial, Helvetica, sans-serif;
 }
+
+@font-face {
+  font-family: 'BMEuljiro';
+  src: url('/fonts/BMEuljirooraeorae.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+}

@@ -4,7 +4,6 @@ import MessageItem from './components/MessageItem';
 import { useRouter } from 'next/navigation';
 import { messages } from '../../mocks/messages';
 import BottomNav from '@/app/components/BottomNav';
-import LoveAgainLogo from '@/app/components/LoveAgainLogo';
 
 export default function MessageList() {
   const router = useRouter();

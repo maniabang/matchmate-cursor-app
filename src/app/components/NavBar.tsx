@@ -1,5 +1,5 @@
 import Link from "next/link";
-import LoveAgainLogo from "./LoveAgainLogo";
+import Logo from './Logo';
 
 interface NavBarProps {
   title: string;
@@ -20,7 +20,7 @@ export default function NavBar({ title }: NavBarProps) {
       zIndex: 20,
     }}>
       <div style={{ flex: 1, display: 'flex', alignItems: 'center' }}>
-        <LoveAgainLogo />
+        <Logo />
       </div>
       <div style={{ flex: 2, textAlign: 'center', fontWeight: 600, fontSize: '1.1rem', color: '#333' }}>
         {title}

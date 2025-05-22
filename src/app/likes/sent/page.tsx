@@ -3,7 +3,6 @@ import { useRouter } from 'next/navigation';
 import Image from 'next/image';
 import { useModalStore } from '@/store/modalStore';
 import BottomNav from '@/app/components/BottomNav';
-import LoveAgainLogo from '@/app/components/LoveAgainLogo';
 import NavBar from '@/app/components/NavBar';
 
 const likesSent = [
