@@ -1,4 +1,5 @@
 import React from 'react';
+import Link from 'next/link';
 
 export type ChatMessage = {
   id: string;
@@ -8,17 +9,27 @@ export type ChatMessage = {
   unread?: boolean;
 };
 
-export default function MessageDetail({ name, messages, onBack }: {
+export default function MessageDetail({ id, name, profile, messages, onBack }: {
+  id: string;
   name: string;
+  profile?: string;
   messages: ChatMessage[];
   onBack?: () => void;
 }) {
+  const defaultProfile = '/images/profile-default-female.svg';
+  const profileSrc = profile && profile.trim() !== '' ? profile : defaultProfile;
   return (
     <div className="bg-white min-h-screen flex flex-col">
       {/* 상단바 */}
-      <header className="flex items-center px-4 py-3 border-b border-gray-100">
-        <button className="text-2xl text-[#EBA8A6] mr-2" onClick={onBack}>←</button>
-        <span className="text-lg font-bold text-[#EBA8A6]">{name}</span>
+      <header className="flex items-center px-4 py-3 border-b border-gray-100 justify-between">
+        <button className="text-2xl text-[#EBA8A6] mr-2 cursor-pointer" onClick={onBack}>←</button>
+        <div className="flex-1" />
+        <Link href={`/profile/${id}`} className="flex items-center gap-2">
+          <div className="w-9 h-9 rounded-full overflow-hidden border border-gray-200">
+            <img src={profileSrc} alt="프로필" className="w-full h-full object-cover" />
+          </div>
+          <span className="text-lg font-bold text-[#EBA8A6]">{name}</span>
+        </Link>
       </header>
 
       {/* 메시지 대화 영역 */}

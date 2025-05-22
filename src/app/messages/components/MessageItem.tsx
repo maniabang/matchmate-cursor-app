@@ -4,9 +4,10 @@ type MessageItemProps = {
   preview: string;
   time: string;
   unread: number;
+  id: string;
 };
 
-export default function MessageItem({ profile, name, preview, time, unread }: MessageItemProps) {
+export default function MessageItem({ profile, name, preview, time, unread, id }: MessageItemProps) {
   const defaultProfile = '/images/profile-default-female.svg';
   const profileSrc = profile && profile.trim() !== '' ? profile : defaultProfile;
   return (

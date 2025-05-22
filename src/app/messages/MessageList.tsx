@@ -2,7 +2,7 @@
 
 import MessageItem from './components/MessageItem';
 import { useRouter } from 'next/navigation';
-import { messages } from './mocks/messages';
+import { messages } from '../../mocks/messages';
 
 export default function MessageList() {
   const router = useRouter();
@@ -11,7 +11,7 @@ export default function MessageList() {
       {/* 상단바 */}
       <header className="flex items-center px-4 py-3 border-b border-gray-100">
         <button
-          className="text-2xl text-[#EBA8A6] mr-2"
+          className="text-2xl text-[#EBA8A6] mr-2 cursor-pointer"
           onClick={() => router.back()}
           aria-label="뒤로가기"
         >
@@ -28,7 +28,7 @@ export default function MessageList() {
             className="hover:bg-gray-50 cursor-pointer"
             onClick={() => router.push(`/messages/${msg.id}`)}
           >
-            <MessageItem {...msg} />
+            <MessageItem {...msg} id={msg.id} />
           </li>
         ))}
       </ul>
