@@ -2,10 +2,20 @@
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import ProfileImageUploader from "./ProfileImageUploader";
+import { useSignupStore } from '@/store/useSignupStore';
 
 export default function SignupStep2() {
   const router = useRouter();
   const [images, setImages] = useState<(string | null)[]>([null, null, null, null, null, null]);
+  const setStep2 = useSignupStore(state => state.setStep2);
+
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    // null이 아닌 값만 추출
+    const photo_urls = images.filter((img): img is string => !!img);
+    setStep2({ photo_urls });
+    router.push('/signup/step3');
+  };
 
   return (
     <div style={{
@@ -61,7 +71,7 @@ export default function SignupStep2() {
         padding: '40px 28px',
         marginTop: 80,
         alignItems: 'center',
-      }} onSubmit={e => { e.preventDefault(); router.push('/signup/step3'); }}>
+      }} onSubmit={handleSubmit}>
         <label style={{
           fontWeight: 600,
           color: '#EBA8A6',

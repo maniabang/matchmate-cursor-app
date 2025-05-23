@@ -2,12 +2,28 @@
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import SignupForm from "./SignupForm";
+import { useSignupStore } from '@/store/useSignupStore';
+import { supabase } from '@/lib/supabase';
 
 export default function Signup() {
   const router = useRouter();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [passwordCheck, setPasswordCheck] = useState("");
+  const setUserId = useSignupStore(state => state.setUserId);
+  const [error, setError] = useState<string | null>(null);
+
+  const handleSignup = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setError(null);
+    const { data, error } = await supabase.auth.signUp({ email, password });
+    if (error || !data.user) {
+      setError(error?.message || '회원가입에 실패했습니다.');
+      return;
+    }
+    setUserId(data.user.id);
+    router.push('/signup/step1');
+  };
 
   return (
     <div style={{
@@ -68,8 +84,11 @@ export default function Signup() {
         setPassword={setPassword}
         passwordCheck={passwordCheck}
         setPasswordCheck={setPasswordCheck}
-        onSubmit={e => { e.preventDefault(); router.push('/signup/step1'); }}
+        onSubmit={handleSignup}
       />
+      {error && (
+        <div style={{ color: '#FF6B6B', fontSize: '0.97rem', marginTop: 8 }}>{error}</div>
+      )}
       {/* 로그인 이동 링크 */}
       <div style={{
         marginTop: 24,

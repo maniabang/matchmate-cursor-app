@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { useRouter } from "next/navigation";
-import { signIn } from "@/lib/supabaseAuth";
+import { signIn } from '@/api/auth';
 
 interface LoginFormProps {
   email: string;
@@ -18,12 +18,13 @@ export default function LoginForm({ email, setEmail, password, setPassword }: Lo
     e.preventDefault();
     setError(null);
     setLoading(true);
-    const { error } = await signIn(email, password);
-    setLoading(false);
-    if (error) {
-      setError(error.message);
-    } else {
+    try {
+      await signIn({ email, password });
       router.replace("/");
+    } catch (err: any) {
+      setError(err.message || '로그인에 실패했습니다.');
+    } finally {
+      setLoading(false);
     }
   };
 

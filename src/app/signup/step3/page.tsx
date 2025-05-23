@@ -2,6 +2,7 @@
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import BasicInfoForm from "./BasicInfoForm";
+import { useSignupStore } from '@/store/useSignupStore';
 
 export default function SignupStep3() {
   const router = useRouter();
@@ -9,6 +10,14 @@ export default function SignupStep3() {
   const [gender, setGender] = useState("");
   const [job, setJob] = useState("");
   const [region, setRegion] = useState("");
+  const [mbti, setMbti] = useState("");
+  const setStep3 = useSignupStore(state => state.setStep3);
+
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    setStep3({ birth, gender, job, region, mbti });
+    router.push('/signup/step4');
+  };
 
   return (
     <div style={{
@@ -61,7 +70,9 @@ export default function SignupStep3() {
         setJob={setJob}
         region={region}
         setRegion={setRegion}
-        onSubmit={e => { e.preventDefault(); router.push('/signup/step4'); }}
+        mbti={mbti}
+        setMbti={setMbti}
+        onSubmit={handleSubmit}
       />
     </div>
   );

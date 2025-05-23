@@ -1,21 +1,60 @@
 "use client";
 import { useRouter } from "next/navigation";
-import { useState } from "react";
+import { useCreateProfile } from '@/api/profile';
+import { useSignupStore } from '@/store/useSignupStore';
+import { supabase } from '@/lib/supabase';
 
 export default function SignupStep5() {
   const router = useRouter();
-  const [intro, setIntro] = useState("");
+  const intro = useSignupStore(state => state.intro);
+  const setIntro = useSignupStore(state => state.setIntro);
+  const loading = useSignupStore(state => state.loading);
+  const error = useSignupStore(state => state.error);
+  const setLoading = useSignupStore(state => state.setLoading);
+  const setError = useSignupStore(state => state.setError);
+  const setProfile = useSignupStore(state => state.setProfile);
+  const resetSignup = useSignupStore(state => state.reset);
+  const getProfileData = useSignupStore(state => state.getProfileData);
   const max = 300;
+  const userId = useSignupStore(state => state.userId);
+
+  const mutation = useCreateProfile({
+    onSuccess: (profile) => {
+      setProfile(profile);
+      setLoading(false);
+      setError(null);
+      resetSignup();
+      router.push('/signup/complete');
+    },
+    onError: (err) => {
+      setError(err.message || '회원가입에 실패했습니다. 다시 시도해 주세요.');
+      setLoading(false);
+    }
+  });
 
   const handleChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     if (e.target.value.length <= max) setIntro(e.target.value);
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (intro.trim().length > 0) {
-      // 실제 회원가입 완료 처리 등
-      router.push("/signup/complete");
+    setError(null);
+    if (intro.trim().length === 0) {
+      setError('자기소개를 입력해 주세요.');
+      return;
+    }
+    if (loading) return;
+    setLoading(true);
+    try {
+      if (!userId) {
+        setError('회원가입 정보가 없습니다. 처음부터 다시 시도해 주세요.');
+        setLoading(false);
+        return;
+      }
+      mutation.mutate(getProfileData(userId));
+    } catch (err: any) {
+      setError(err.message || '회원가입에 실패했습니다.');
+      setLoading(false);
     }
   };
 
@@ -104,26 +143,27 @@ export default function SignupStep5() {
         <div style={{ color: intro.length === max ? '#EBA8A6' : '#aaa', fontSize: '0.97rem', marginBottom: 4, textAlign: 'right' }}>
           {intro.length} / {max}자
         </div>
+        {error && <div style={{ color: '#FF6B6B', fontSize: '0.97rem', marginBottom: 4 }}>{error}</div>}
         <button
           type="submit"
-          disabled={intro.trim().length === 0}
+          disabled={intro.trim().length === 0 || loading}
           style={{
             width: '100%',
             padding: '12px 0',
             borderRadius: 16,
-            background: intro.trim().length > 0 ? '#EBA8A6' : '#E6E6E6',
+            background: intro.trim().length > 0 && !loading ? '#EBA8A6' : '#E6E6E6',
             color: '#fff',
             fontWeight: 700,
             fontSize: '1.05rem',
             border: 'none',
             boxShadow: '0 2px 8px rgba(22, 12, 12, 0.10)',
-            cursor: intro.trim().length > 0 ? 'pointer' : 'not-allowed',
+            cursor: intro.trim().length > 0 && !loading ? 'pointer' : 'not-allowed',
             letterSpacing: '-1px',
             marginTop: 8,
             transition: 'background 0.2s',
           }}
         >
-          다음
+          {loading ? '가입 중...' : '다음'}
         </button>
       </form>
     </div>

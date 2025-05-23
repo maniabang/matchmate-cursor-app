@@ -1,4 +1,15 @@
-import React, { useState } from "react";
+import React from "react";
+
+const MBTI_TYPES = [
+  '', 'ISTJ', 'ISFJ', 'INFJ', 'INTJ',
+  'ISTP', 'ISFP', 'INFP', 'INTP',
+  'ESTP', 'ESFP', 'ENFP', 'ENTP',
+  'ESTJ', 'ESFJ', 'ENFJ', 'ENTJ',
+];
+
+const REGIONS = [
+  '', '서울', '경기', '인천', '부산', '대구', '광주', '대전', '울산', '세종', '강원', '충북', '충남', '전북', '전남', '경북', '경남', '제주'
+];
 
 interface BasicInfoFormProps {
   birth: string;
@@ -9,18 +20,12 @@ interface BasicInfoFormProps {
   setJob: (v: string) => void;
   region: string;
   setRegion: (v: string) => void;
+  mbti: string;
+  setMbti: (v: string) => void;
   onSubmit: (e: React.FormEvent) => void;
 }
 
-const MBTI_TYPES = [
-  '', 'ISTJ', 'ISFJ', 'INFJ', 'INTJ',
-  'ISTP', 'ISFP', 'INFP', 'INTP',
-  'ESTP', 'ESFP', 'ENFP', 'ENTP',
-  'ESTJ', 'ESFJ', 'ENFJ', 'ENTJ',
-];
-
-export default function BasicInfoForm({ birth, setBirth, gender, setGender, job, setJob, region, setRegion, onSubmit }: BasicInfoFormProps) {
-  const [mbti, setMbti] = useState("");
+export default function BasicInfoForm({ birth, setBirth, gender, setGender, job, setJob, region, setRegion, mbti, setMbti, onSubmit }: BasicInfoFormProps) {
   return (
     <form style={{
       display: 'flex',
@@ -98,9 +103,7 @@ export default function BasicInfoForm({ birth, setBirth, gender, setGender, job,
       />
       {/* 지역 */}
       <label style={{ color: '#EBA8A6', fontWeight: 600, fontSize: '1rem', marginBottom: 2 }}>지역</label>
-      <input
-        type="text"
-        placeholder="지역 (선택)"
+      <select
         value={region}
         onChange={e => setRegion(e.target.value)}
         style={{
@@ -110,8 +113,14 @@ export default function BasicInfoForm({ birth, setBirth, gender, setGender, job,
           fontSize: '1rem',
           outline: 'none',
           marginBottom: 4,
+          color: region ? '#222' : '#aaa',
         }}
-      />
+      >
+        <option value="">선택 안 함</option>
+        {REGIONS.slice(1).map(r => (
+          <option key={r} value={r}>{r}</option>
+        ))}
+      </select>
       {/* MBTI */}
       <label style={{ color: '#EBA8A6', fontWeight: 600, fontSize: '1rem', marginBottom: 2 }}>MBTI</label>
       <select

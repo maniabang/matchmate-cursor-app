@@ -2,10 +2,18 @@
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import NicknameInput from "./NicknameInput";
+import { useSignupStore } from '@/store/useSignupStore';
 
 export default function SignupStep1() {
   const router = useRouter();
   const [nickname, setNickname] = useState("");
+  const setStep1 = useSignupStore(state => state.setStep1);
+
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    setStep1({ nickname });
+    router.push('/signup/step2');
+  };
 
   return (
     <div style={{
@@ -60,7 +68,7 @@ export default function SignupStep1() {
         boxShadow: '0 4px 24px rgba(235,168,166,0.10)',
         padding: '40px 28px',
         marginTop: 80,
-      }} onSubmit={e => { e.preventDefault(); router.push('/signup/step2'); }}>
+      }} onSubmit={handleSubmit}>
         <NicknameInput nickname={nickname} setNickname={setNickname} />
         {/* 닉네임 규칙 안내 */}
         <div style={{

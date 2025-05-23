@@ -11,6 +11,9 @@ interface SignupFormProps {
 }
 
 export default function SignupForm({ email, setEmail, password, setPassword, passwordCheck, setPasswordCheck, onSubmit }: SignupFormProps) {
+  const isPasswordMatch = password === passwordCheck && password.length > 0;
+  const isPasswordError = passwordCheck.length > 0 && !isPasswordMatch;
+
   return (
     <form style={{
       display: 'flex',
@@ -64,19 +67,25 @@ export default function SignupForm({ email, setEmail, password, setPassword, pas
           marginBottom: 8,
         }}
       />
+      {isPasswordError && (
+        <div style={{ color: '#FF6B6B', fontSize: '0.97rem', marginBottom: 4 }}>
+          비밀번호가 일치하지 않습니다
+        </div>
+      )}
       <button
         type="submit"
+        disabled={!isPasswordMatch}
         style={{
           width: '100%',
           padding: '12px 0',
           borderRadius: 16,
-          background: '#EBA8A6',
+          background: isPasswordMatch ? '#EBA8A6' : '#E6E6E6',
           color: '#fff',
           fontWeight: 700,
           fontSize: '1.05rem',
           border: 'none',
           boxShadow: '0 2px 8px rgba(22, 12, 12, 0.10)',
-          cursor: 'pointer',
+          cursor: isPasswordMatch ? 'pointer' : 'not-allowed',
           letterSpacing: '-1px',
           marginTop: 8,
           transition: 'background 0.2s',
