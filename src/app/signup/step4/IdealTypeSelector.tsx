@@ -32,6 +32,7 @@ export default function IdealTypeSelector({ selected, setSelected, max }: Props)
         flexWrap: 'wrap',
         gap: 10,
         marginBottom: 8,
+        alignItems: 'center',
       }}>
         {IDEAL_TAGS.map(tag => (
           <button
@@ -40,6 +41,7 @@ export default function IdealTypeSelector({ selected, setSelected, max }: Props)
             onClick={() => toggleTag(tag)}
             style={{
               padding: '6px 12px',
+              minWidth: 70,
               borderRadius: 20,
               border: selected.includes(tag) ? '2px solid #EBA8A6' : '1.5px solid #EBA8A6',
               background: selected.includes(tag) ? '#EBA8A6' : '#fff',
@@ -49,6 +51,8 @@ export default function IdealTypeSelector({ selected, setSelected, max }: Props)
               cursor: 'pointer',
               transition: 'all 0.15s',
               outline: 'none',
+              whiteSpace: 'nowrap',
+              flexShrink: 0,
             }}
             disabled={!selected.includes(tag) && selected.length >= max}
           >

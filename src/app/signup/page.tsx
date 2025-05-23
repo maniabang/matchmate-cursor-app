@@ -4,6 +4,7 @@ import { useState } from "react";
 import SignupForm from "./SignupForm";
 import { useSignupStore } from '@/store/useSignupStore';
 import { supabase } from '@/lib/supabase';
+import { useModalStore } from '@/store/modalStore';
 
 export default function Signup() {
   const router = useRouter();
@@ -12,17 +13,35 @@ export default function Signup() {
   const [passwordCheck, setPasswordCheck] = useState("");
   const setUserId = useSignupStore(state => state.setUserId);
   const [error, setError] = useState<string | null>(null);
+  const { openModal } = useModalStore();
 
   const handleSignup = async (e: React.FormEvent) => {
     e.preventDefault();
     setError(null);
     const { data, error } = await supabase.auth.signUp({ email, password });
+    if (data?.user && Array.isArray(data.user.identities) && data.user.identities.length === 0) {
+      openModal(null, {
+        title: '이메일 중복',
+        description: '이미 사용 중인 이메일입니다.',
+        confirmText: '확인',
+      });
+      return;
+    }
     if (error || !data.user) {
-      setError(error?.message || '회원가입에 실패했습니다.');
+      if (error?.message?.includes('For security purposes')) {
+        setError('보안 정책에 따라 같은 이메일로 1분 이내에 재가입할 수 없습니다. 잠시 후 다시 시도해 주세요.');
+      } else {
+        setError(error?.message || '회원가입에 실패했습니다.');
+      }
       return;
     }
     setUserId(data.user.id);
-    router.push('/signup/step1');
+    openModal(null, {
+      title: '회원가입 완료',
+      description: '이메일 인증을 완료해주세요.\n이메일로 전송된 인증 링크를 확인해 주세요.',
+      confirmText: '확인',
+      onConfirm: () => router.push('/signup/step1'),
+    });
   };
 
   return (

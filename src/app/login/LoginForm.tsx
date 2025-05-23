@@ -20,7 +20,7 @@ export default function LoginForm({ email, setEmail, password, setPassword }: Lo
     setLoading(true);
     try {
       await signIn({ email, password });
-      router.replace("/");
+      router.replace("/home");
     } catch (err: any) {
       setError(err.message || '로그인에 실패했습니다.');
     } finally {
