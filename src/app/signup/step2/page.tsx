@@ -6,13 +6,15 @@ import { useSignupStore } from '@/store/useSignupStore';
 
 export default function SignupStep2() {
   const router = useRouter();
-  const [images, setImages] = useState<(string | null)[]>([null, null, null, null, null, null]);
+  const [images, setImages] = useState<{ url: string | null, path: string | null }[]>(
+    Array(6).fill({ url: null, path: null })
+  );
   const setStep2 = useSignupStore(state => state.setStep2);
+  const userId = typeof window !== 'undefined' ? localStorage.getItem('userId') || '' : '';
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    // null이 아닌 값만 추출
-    const photo_urls = images.filter((img): img is string => !!img);
+    const photo_urls = images.filter(img => img.url).map(img => img.url!) as string[];
     setStep2({ photo_urls });
     router.push('/signup/step3');
   };
@@ -80,7 +82,7 @@ export default function SignupStep2() {
         }}>
           프로필 사진을 업로드해 주세요
         </label>
-        <ProfileImageUploader images={images} setImages={setImages} />
+        <ProfileImageUploader images={images} setImages={setImages} userId={userId} />
         <button
           type="submit"
           style={{

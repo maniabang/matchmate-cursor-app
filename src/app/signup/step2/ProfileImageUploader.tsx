@@ -1,32 +1,42 @@
 import React, { useRef } from "react";
+import { uploadProfileImage, removeProfileImage } from '@/api/upload';
 
 interface ProfileImageUploaderProps {
-  images: (string | null)[];
-  setImages: React.Dispatch<React.SetStateAction<(string | null)[]>>;
+  images: { url: string | null, path: string | null }[];
+  setImages: React.Dispatch<React.SetStateAction<{ url: string | null, path: string | null }[]>>;
+  userId: string;
 }
 
-export default function ProfileImageUploader({ images, setImages }: ProfileImageUploaderProps) {
+export default function ProfileImageUploader({ images, setImages, userId }: ProfileImageUploaderProps) {
   const fileInputRefs = Array.from({ length: 6 }, () => useRef<HTMLInputElement>(null));
 
-  const handleFileChange = (idx: number, e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleFileChange = async (idx: number, e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
-    if (file) {
-      const reader = new FileReader();
-      reader.onload = (ev) => {
-        setImages(prev => {
-          const copy = [...prev];
-          copy[idx] = ev.target?.result as string;
-          return copy;
-        });
-      };
-      reader.readAsDataURL(file);
+    if (!file) return;
+
+    // 기존 이미지가 있으면 Storage에서 삭제
+    if (images[idx]?.path) {
+      await removeProfileImage(images[idx].path!);
+    }
+
+    // 새 이미지 업로드
+    const uploaded = await uploadProfileImage(file, userId);
+    if (uploaded) {
+      setImages(prev => {
+        const copy = [...prev];
+        copy[idx] = { url: uploaded.url, path: uploaded.path };
+        return copy;
+      });
     }
   };
 
-  const handleDelete = (idx: number) => {
+  const handleDelete = async (idx: number) => {
+    if (images[idx]?.path) {
+      await removeProfileImage(images[idx].path!);
+    }
     setImages(prev => {
       const copy = [...prev];
-      copy[idx] = null;
+      copy[idx] = { url: null, path: null };
       return copy;
     });
   };
@@ -59,13 +69,13 @@ export default function ProfileImageUploader({ images, setImages }: ProfileImage
                 position: 'relative',
               }}
             >
-              {img ? (
-                <img src={img} alt={`프로필${idx + 1}`} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+              {img.url ? (
+                <img src={img.url} alt={`프로필${idx + 1}`} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
               ) : (
                 <span style={{ color: '#EBA8A6', fontSize: 24 }}>+</span>
               )}
             </div>
-            {img && (
+            {img.url && (
               <button
                 type="button"
                 onClick={e => { e.stopPropagation(); handleDelete(idx); }}
