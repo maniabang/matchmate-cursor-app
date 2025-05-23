@@ -1,86 +1,58 @@
 "use client";
-import { useRouter } from "next/navigation";
 import { useState } from "react";
-import LoginForm from "./LoginForm";
+import { useRouter } from "next/navigation";
+import { signIn, signUp } from "@/lib/supabaseAuth";
 
-export default function Login() {
+export default function AuthPage() {
   const router = useRouter();
+  const [isSignUp, setIsSignUp] = useState(false);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [error, setError] = useState<string | null>(null);
+  const [loading, setLoading] = useState(false);
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setError(null);
+    setLoading(true);
+    const fn = isSignUp ? signUp : signIn;
+    const { error } = await fn(email, password);
+    setLoading(false);
+    if (error) {
+      setError(error.message);
+    } else {
+      router.replace("/"); // 로그인/회원가입 성공 시 메인으로 이동
+    }
+  };
 
   return (
-    <div style={{
-      minHeight: '100vh',
-      display: 'flex',
-      flexDirection: 'column',
-      alignItems: 'center',
-      justifyContent: 'center',
-      background: '#FFF6F5',
-      position: 'relative',
-    }}>
-      {/* 뒤로가기 버튼 */}
-      <button
-        onClick={() => router.back()}
-        style={{
-          position: 'absolute',
-          top: 24,
-          left: 20,
-          background: 'none',
-          border: 'none',
-          fontSize: '1.5rem',
-          color: '#EBA8A6',
-          cursor: 'pointer',
-          zIndex: 10,
-          padding: 0,
-        }}
-        aria-label="뒤로가기"
-      >
-        ←
-      </button>
-      {/* 상단 로고 */}
-      <span style={{
-        fontFamily: "'Pretendard', 'Noto Sans KR', Arial, sans-serif",
-        fontWeight: 700,
-        fontSize: '2rem',
-        color: '#EBA8A6',
-        letterSpacing: '-2px',
-        marginBottom: 32,
-        userSelect: 'none',
-      }}>
-        어게인
-      </span>
-      {/* 안내문구 */}
-      <div style={{
-        color: '#222',
-        fontSize: '1.1rem',
-        marginBottom: 32,
-        textAlign: 'center',
-        fontWeight: 500,
-      }}>
-        다시 만나는 인연, <br />어게인에서 시작하세요
-      </div>
-      {/* 로그인 폼 */}
-      <LoginForm
-        email={email}
-        setEmail={setEmail}
-        password={password}
-        setPassword={setPassword}
-        onSubmit={e => { e.preventDefault(); router.push('/home'); }}
-      />
-      {/* 회원가입 링크 */}
-      <div style={{
-        marginTop: 24,
-        color: '#888',
-        fontSize: '0.98rem',
-      }}>
-        계정이 없으신가요?{' '}
-        <span
-          style={{ color: '#EBA8A6', cursor: 'pointer', fontWeight: 600 }}
-          onClick={() => router.push('/signup')}
-        >
-          회원가입
-        </span>
-      </div>
+    <div style={{ minHeight: "100vh", display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", background: "#FFF6F5" }}>
+      <form onSubmit={handleSubmit} style={{ width: 320, background: "#fff", borderRadius: 20, boxShadow: "0 4px 24px rgba(235,168,166,0.10)", padding: "40px 28px", display: "flex", flexDirection: "column", gap: 18 }}>
+        <h2 style={{ color: "#EBA8A6", fontWeight: 700, fontSize: "1.3rem", marginBottom: 8 }}>{isSignUp ? "회원가입" : "로그인"}</h2>
+        <input type="email" placeholder="이메일" value={email} onChange={e => setEmail(e.target.value)} required style={{ padding: "12px 16px", borderRadius: 12, border: "1.5px solid #EBA8A6", fontSize: "1rem" }} />
+        <input type="password" placeholder="비밀번호" value={password} onChange={e => setPassword(e.target.value)} required style={{ padding: "12px 16px", borderRadius: 12, border: "1.5px solid #EBA8A6", fontSize: "1rem" }} />
+        {error && <div style={{ color: "#EBA8A6", fontSize: "0.97rem" }}>{error}</div>}
+        <button type="submit" disabled={loading} style={{ width: "100%", padding: "12px 0", borderRadius: 16, background: "#EBA8A6", color: "#fff", fontWeight: 700, fontSize: "1.05rem", border: "none", boxShadow: "0 2px 8px rgba(22, 12, 12, 0.10)", cursor: "pointer", letterSpacing: "-1px", marginTop: 8, transition: "background 0.2s" }}>
+          {loading ? "처리 중..." : isSignUp ? "회원가입" : "로그인"}
+        </button>
+        <div style={{ marginTop: 12, color: "#888", fontSize: "0.98rem", textAlign: "center" }}>
+          {isSignUp ? (
+            <>
+              이미 계정이 있으신가요?{" "}
+              <span style={{ color: "#EBA8A6", cursor: "pointer", fontWeight: 600 }} onClick={() => setIsSignUp(false)}>
+                로그인
+              </span>
+            </>
+          ) : (
+            <>
+              계정이 없으신가요?{" "}
+              <span style={{ color: "#EBA8A6", cursor: "pointer", fontWeight: 600 }} onClick={() => setIsSignUp(true)}>
+                회원가입
+              </span>
+            </>
+          )}
+        </div>
+      </form>
     </div>
   );
 } 
