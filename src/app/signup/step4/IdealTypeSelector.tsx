@@ -39,7 +39,7 @@ export default function IdealTypeSelector({ selected, setSelected, max }: Props)
             key={tag}
             onClick={() => toggleTag(tag)}
             style={{
-              padding: '8px 18px',
+              padding: '6px 12px',
               borderRadius: 20,
               border: selected.includes(tag) ? '2px solid #EBA8A6' : '1.5px solid #EBA8A6',
               background: selected.includes(tag) ? '#EBA8A6' : '#fff',
