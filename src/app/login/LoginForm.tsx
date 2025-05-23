@@ -1,14 +1,32 @@
-import React from "react";
+import React, { useState } from "react";
+import { useRouter } from "next/navigation";
+import { signIn } from "@/lib/supabaseAuth";
 
 interface LoginFormProps {
   email: string;
   setEmail: (v: string) => void;
   password: string;
   setPassword: (v: string) => void;
-  onSubmit: (e: React.FormEvent) => void;
 }
 
-export default function LoginForm({ email, setEmail, password, setPassword, onSubmit }: LoginFormProps) {
+export default function LoginForm({ email, setEmail, password, setPassword }: LoginFormProps) {
+  const router = useRouter();
+  const [error, setError] = useState<string | null>(null);
+  const [loading, setLoading] = useState(false);
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setError(null);
+    setLoading(true);
+    const { error } = await signIn(email, password);
+    setLoading(false);
+    if (error) {
+      setError(error.message);
+    } else {
+      router.replace("/");
+    }
+  };
+
   return (
     <form style={{
       display: 'flex',
@@ -19,7 +37,7 @@ export default function LoginForm({ email, setEmail, password, setPassword, onSu
       borderRadius: 20,
       boxShadow: '0 4px 24px rgba(235,168,166,0.10)',
       padding: '32px 28px',
-    }} onSubmit={onSubmit}>
+    }} onSubmit={handleSubmit}>
       <input
         type="email"
         placeholder="이메일"
@@ -48,8 +66,10 @@ export default function LoginForm({ email, setEmail, password, setPassword, onSu
           marginBottom: 8,
         }}
       />
+      {error && <div style={{ color: '#EBA8A6', fontSize: '0.97rem' }}>{error}</div>}
       <button
         type="submit"
+        disabled={loading}
         style={{
           width: '100%',
           padding: '12px 0',
@@ -66,7 +86,7 @@ export default function LoginForm({ email, setEmail, password, setPassword, onSu
           transition: 'background 0.2s',
         }}
       >
-        로그인
+        {loading ? '로그인 중...' : '로그인'}
       </button>
     </form>
   );

@@ -1,12 +1,10 @@
 import React from "react";
 import AppleIcon from "../components/AppleIcon";
 import GoogleIcon from "../components/GoogleIcon";
+import { useRouter } from "next/navigation";
 
-interface MainButtonGroupProps {
-  router: any;
-}
-
-function MainButtonGroup({ router }: MainButtonGroupProps) {
+function MainButtonGroup() {
+  const router = useRouter();
   return (
     <div style={{
       display: 'flex',
