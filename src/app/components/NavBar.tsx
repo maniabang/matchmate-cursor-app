@@ -1,11 +1,28 @@
 import Link from "next/link";
 import Logo from './Logo';
+import { cookies } from "next/headers";
+import { createServerComponentClient } from "@supabase/auth-helpers-nextjs";
+import { Profile } from "@/api/types";
 
 interface NavBarProps {
   title: string;
 }
 
-export default function NavBar({ title }: NavBarProps) {
+export default async function NavBar({ title }: NavBarProps) {
+  const supabase = createServerComponentClient({ cookies });
+  const { data: { user } } = await supabase.auth.getUser();
+  let profileImg = "/images/profile-default-female.svg";
+  if (user) {
+    const { data: profile } = await supabase
+      .from("profiles")
+      .select("photo_urls")
+      .eq("id", user.id)
+      .single();
+    if (profile?.photo_urls?.[0]) {
+      profileImg = profile.photo_urls[0];
+    }
+  }
+
   return (
     <nav style={{
       height: 56,
@@ -27,11 +44,20 @@ export default function NavBar({ title }: NavBarProps) {
       </div>
       <div style={{ flex: 1, display: 'flex', justifyContent: 'flex-end', alignItems: 'center' }}>
         <Link href="/profile/my" style={{ display: 'flex', alignItems: 'center' }}>
-          <svg width="36" height="36" viewBox="0 0 128 128" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <rect width="128" height="128" rx="64" fill="#A6C8EB" />
-            <circle cx="64" cy="54" r="26" fill="white" />
-            <ellipse cx="64" cy="98" rx="30" ry="18" fill="white" />
-          </svg>
+          <div style={{
+            width: 36,
+            height: 36,
+            borderRadius: '50%',
+            overflow: 'hidden',
+            border: '1.5px solid #A6C8EB',
+            background: '#fff'
+          }}>
+            <img
+              src={profileImg}
+              alt="내 프로필"
+              style={{ width: '100%', height: '100%', objectFit: 'cover' }}
+            />
+          </div>
         </Link>
       </div>
     </nav>
