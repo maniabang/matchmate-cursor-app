@@ -21,20 +21,21 @@ const HeartIcon = ({ color }: { color: string }) => (
 
 interface BottomNavProps {
   activeTab?: 'home' | 'messages' | 'match';
+  user?: any;
 }
 
-export default function BottomNav({ activeTab }: BottomNavProps) {
+export default function BottomNav({ activeTab, user }: BottomNavProps) {
   return (
     <nav style={{ height: 60, display: 'flex', justifyContent: 'space-around', alignItems: 'center', borderTop: '1px solid #eee', background: '#fff' }}>
       <Link href="/home" style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', flex: 1, textDecoration: 'none' }}>
         <HomeIcon color={activeTab === 'home' ? '#EBA8A6' : '#CCCCCC'} />
         <span style={{ fontSize: '0.85rem', marginTop: 2, color: activeTab === 'home' ? '#EBA8A6' : '#CCCCCC' }}>홈</span>
       </Link>
-      <Link href="/messages" style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', flex: 1, textDecoration: 'none' }}>
+      <Link href={user?.id ? "/messages" : "/login"} style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', flex: 1, textDecoration: 'none' }}>
         <MessageIcon color={activeTab === 'messages' ? '#EBA8A6' : '#CCCCCC'} />
         <span style={{ fontSize: '0.85rem', marginTop: 2, color: activeTab === 'messages' ? '#EBA8A6' : '#CCCCCC' }}>메시지</span>
       </Link>
-      <Link href="/likes/received" style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', flex: 1, textDecoration: 'none' }}>
+      <Link href={user?.id ? "/likes/received" : "/login"} style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', flex: 1, textDecoration: 'none' }}>
         <HeartIcon color={activeTab === 'match' ? '#EBA8A6' : '#CCCCCC'} />
         <span style={{ fontSize: '0.85rem', marginTop: 2, color: activeTab === 'match' ? '#EBA8A6' : '#CCCCCC' }}>매치</span>
       </Link>

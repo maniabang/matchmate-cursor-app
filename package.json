@@ -4,6 +4,7 @@
   "private": true,
   "scripts": {
     "dev": "next dev --turbopack",
+    "dev:https": "node server.js",
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
@@ -33,6 +34,9 @@
     "cursor-talk-to-figma-mcp": "^0.2.1",
     "eslint": "^9",
     "eslint-config-next": "15.3.2",
+    "https-localhost": "^4.7.1",
+    "local-ssl-proxy": "^2.0.5",
+    "next-https": "^1.1.16",
     "postcss": "^8.5.3",
     "tailwindcss": "^4",
     "typescript": "^5"

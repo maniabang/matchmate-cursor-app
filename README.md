@@ -41,8 +41,10 @@ Next.js 기반의 PWA 앱으로, Supabase를 이용한 인증과 실시간 기�
    ```
 
 ## 2. 회원가입/로그인 연동 (이메일)
-- `src/lib/supabase.ts` : Supabase 클라이언트 생성
-- `src/lib/supabaseAuth.ts` : 회원가입/로그인/로그아웃 함수
+- **SSR/CSR 인증 통합:**
+  - SSR(서버 컴포넌트, API Route 등)에서는 쿠키 기반 인증을 처리합니다.
+
+
 
 ## 5. 배포 (Vercel)
 - GitHub에 코드 push

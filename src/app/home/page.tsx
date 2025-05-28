@@ -8,16 +8,20 @@ import SwipeCards from '../components/SwipeCards';
 export default async function Home() {
   // SSR 환경에서 Supabase 클라이언트 생성
   const supabase = createServerComponentClient({ cookies });
-  // 예시: 여성 프로필 10개 패칭
+  const { data: { user } } = await supabase.auth.getUser();
+  const { data: myProfile } = await supabase
+    .from("profiles")
+    .select("*")
+    .eq("id", user?.id)
+
   const { data: profiles } = await supabase
     .from("profiles")
     .select("*")
     .eq("gender", "female")
-    .limit(10);
 
   return (
     <div style={{ display: 'flex', flexDirection: 'column', minHeight: '100vh', background: '#fff' }}>
-      <NavBar title="" />
+      <NavBar title="" user={myProfile} />
       <section style={{ flex: 1, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center' }}>
         <SwipeCards profiles={profiles ?? []} />
       </section>
