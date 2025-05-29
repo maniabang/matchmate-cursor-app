@@ -29,7 +29,7 @@ export default function NavBar({ user, title = "" }: NavBarProps) {
         {title}
       </div>
       <div style={{ flex: 1, display: 'flex', justifyContent: 'flex-end', alignItems: 'center' }}>
-        <Link href={user?.[0]?.id ? "/profile/my" : "/login"}>
+        <Link href={user?.[0]?.id ? `/profile/${user?.[0]?.id}` : "/login"}>
           <img
             src={profileImg}
             alt="내 프로필"

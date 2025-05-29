@@ -21,7 +21,6 @@ const SwipeCards: React.FC<SwipeCardsProps> = ({ profiles }) => {
   const handleSwipe = (dir: "left" | "right") => {
     setCurrentIndex((prev) => prev - 1);
   };
-
   // 카드 클릭 시 모달 띄우기
   const handleCardClick = (profile: Profile) => {
     openModal(null, {
@@ -30,6 +29,7 @@ const SwipeCards: React.FC<SwipeCardsProps> = ({ profiles }) => {
       confirmText: '확인',
       cancelText: '취소',
       onConfirm: () => {
+        console.log(profile.id)
         router.push(`/profile/${profile.id}`);
       },
     });

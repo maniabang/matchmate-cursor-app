@@ -1,64 +1,131 @@
 "use client";
+import { useRouter } from "next/navigation";
 
-import React from 'react';
-import { useRouter } from 'next/navigation';
-
-// UserProfile 타입 명시
-export type UserProfile = {
-  id: string;
-  name: string;
-  age: number;
-  gender: '남성' | '여성';
-  region: string;
-  job: string;
-  mbti: string;
-  intro: string;
-  interests: string[];
-  profile: string;
-};
-
-export default function ProfileView({ profile }: { profile: UserProfile }) {
+export default function ProfileView({ profile, isMyProfile }: { profile: any, isMyProfile: boolean }) {
   const router = useRouter();
-  const defaultProfile = '/images/profile-default-female.svg';
-  const profileSrc = profile.profile && profile.profile.trim() !== '' ? profile.profile : defaultProfile;
+  console.log(profile)
+  if (!profile) return <div>프로필 정보가 없습니다.</div>;
+
+  const profileImg = profile.photo_urls?.[0] || "/images/profile-default-female.svg";
+
+  // 로그아웃 핸들러 (임시)
+  const handleLogout = () => {
+    // 실제로는 supabase.auth.signOut() 등 호출 필요
+    alert("로그아웃 기능은 추후 구현 예정입니다.");
+    router.replace("/login");
+  };
+
+  // 프로필 편집 핸들러 (임시)
+  const handleEdit = () => {
+    router.push(`/profile/${profile.id}/edit`);
+  };
+
   return (
-    <div className="bg-white min-h-screen flex flex-col items-center">
-      {/* 상단바 */}
-      <header className="w-full relative flex items-center px-4 py-3 border-b border-gray-100 justify-center">
-        <button className="absolute left-4 text-2xl text-[#EBA8A6] cursor-pointer" onClick={() => router.back()}>←</button>
-        <span className="text-lg font-bold text-[#EBA8A6]">프로필</span>
-        {profile.id === 'my' && (
+    <div style={{ padding: 32, maxWidth: 400, margin: "0 auto", position: "relative", minHeight: '100vh', display: 'flex', flexDirection: 'column' }}>
+      <button
+        onClick={() => router.back()}
+        style={{
+          position: 'absolute',
+          top: 8,
+          left: 8,
+          background: 'none',
+          border: 'none',
+          fontSize: '1.5rem',
+          color: '#EBA8A6',
+          cursor: 'pointer',
+          zIndex: 10,
+          padding: 0,
+        }}
+        aria-label="뒤로가기"
+      >
+        ←
+      </button>
+      <div style={{ display: "flex", flexDirection: "column", alignItems: "center", marginBottom: 24 }}>
+        <div style={{
+          width: 112, height: 112, borderRadius: "50%", overflow: "hidden",
+          border: "2px solid #A6C8EB", marginBottom: 12
+        }}>
+          <img src={profileImg} alt="프로필" style={{ width: "100%", height: "100%", objectFit: "cover" }} />
+        </div>
+        <div style={{ fontSize: "1.3rem", fontWeight: 700, color: "#EBA8A6", marginBottom: 4 }}>
+          {profile.nickname || profile.name}, {profile.age}
+        </div>
+        <div style={{ color: "#A6C8EB", fontWeight: 500, marginBottom: 8 }}>
+          {profile.region} · {profile.job} · {profile.mbti}
+        </div>
+      </div>
+      <div style={{
+        background: "#F8F8F8", borderRadius: 16, padding: 20, marginBottom: 16, color: "#333", textAlign: "center"
+      }}>
+        {profile.intro}
+      </div>
+      <div style={{ marginBottom: 12 }}>
+        <div style={{ fontWeight: 600, color: "#EBA8A6", marginBottom: 6 }}>관심사</div>
+        <div style={{ display: "flex", flexWrap: "wrap", gap: 8 }}>
+          {profile.interests && profile.interests.length > 0
+            ? profile.interests.map((v: string, i: number) => (
+              <span key={i} style={{
+                background: "#EBA8A6", color: "#fff", borderRadius: 12, padding: "4px 12px", fontSize: 13
+              }}>#{v}</span>
+            ))
+            : <span style={{ color: "#aaa" }}>관심사가 없습니다.</span>
+          }
+        </div>
+      </div>
+      {/* 이상형 등 추가 정보도 비슷하게 렌더링 */}
+      {profile.ideals && (
+        <div style={{ marginBottom: 12 }}>
+          <div style={{ fontWeight: 600, color: "#EBA8A6", marginBottom: 6 }}>이상형</div>
+          <div style={{ display: "flex", flexWrap: "wrap", gap: 8 }}>
+            {profile.ideals.length > 0
+              ? profile.ideals.map((v: string, i: number) => (
+                <span key={i} style={{
+                  background: "#A6C8EB", color: "#fff", borderRadius: 12, padding: "4px 12px", fontSize: 13
+                }}>#{v}</span>
+              ))
+              : <span style={{ color: "#aaa" }}>이상형 정보가 없습니다.</span>
+            }
+          </div>
+        </div>
+      )}
+      {/* 하단 버튼: 내 프로필일 때만 노출 */}
+      {isMyProfile && (
+        <div style={{ marginTop: 'auto', display: 'flex', flexDirection: 'column', gap: 12 }}>
           <button
-            className="absolute right-4 text-base text-[#EBA8A6] border border-[#EBA8A6] rounded-lg px-3 py-1 hover:bg-[#EBA8A6]/10 transition"
-            onClick={() => router.replace('/')}
+            onClick={handleEdit}
+            style={{
+              width: '100%',
+              padding: '12px 0',
+              background: '#A6C8EB',
+              color: '#fff',
+              border: 'none',
+              borderRadius: 8,
+              fontWeight: 600,
+              fontSize: 16,
+              marginBottom: 8,
+              cursor: 'pointer',
+            }}
+          >
+            프로필 편집
+          </button>
+          <button
+            onClick={handleLogout}
+            style={{
+              width: '100%',
+              padding: '12px 0',
+              background: '#EBA8A6',
+              color: '#fff',
+              border: 'none',
+              borderRadius: 8,
+              fontWeight: 600,
+              fontSize: 16,
+              cursor: 'pointer',
+            }}
           >
             로그아웃
           </button>
-        )}
-      </header>
-      <div className="flex flex-col items-center py-8 px-4 w-full max-w-md mx-auto">
-        <div className="w-28 h-28 rounded-full overflow-hidden border border-gray-200 mb-4">
-          <img src={profileSrc} alt="프로필" className="w-full h-full object-cover" />
         </div>
-        <div className="text-xl font-semibold text-gray-900 mb-1">{profile.name}, {profile.age} <span className="text-base text-[#A6C8EB]">{profile.gender}</span></div>
-        <div className="flex items-center gap-2 text-sm text-[#EBA8A6] mb-2">
-          <span>{profile.region}</span>
-          <span>·</span>
-          <span>{profile.job}</span>
-          <span>·</span>
-          <span>{profile.mbti}</span>
-        </div>
-        <div className="bg-[#F8F8F8] rounded-xl px-4 py-3 text-gray-700 text-center w-full mb-2">
-          {profile.intro}
-        </div>
-        <div className="flex flex-wrap gap-2 justify-center w-full">
-          {profile.interests.map((interest: string, i: number) => (
-            <span key={i} className="px-3 py-1 bg-[#EBA8A6]/10 text-[#EBA8A6] rounded-full text-xs font-medium border border-[#EBA8A6]/30">
-              #{interest}
-            </span>
-          ))}
-        </div>
-      </div>
+      )}
     </div>
   );
 } 

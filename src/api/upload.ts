@@ -26,7 +26,7 @@ export async function getProfile(id: string): Promise<Profile | null> {
   return data as Profile;
 }
 
-export function useProfile(id: string, options?: UseQueryOptions<Profile | null, Error>) {
+export function useUploadProfile(id: string, options?: UseQueryOptions<Profile | null, Error>) {
   return useQuery<Profile | null, Error>({
     queryKey: ['profile', id],
     queryFn: () => getProfile(id),

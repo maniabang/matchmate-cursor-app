@@ -1,6 +1,6 @@
 import { createServerComponentClient } from "@supabase/auth-helpers-nextjs";
 import { cookies } from "next/headers";
-import MyProfileClient from "./MyProfileClient";
+import MyProfileClient from "../ProfileView";
 import { redirect } from "next/navigation";
 
 export default async function MyProfilePage() {
