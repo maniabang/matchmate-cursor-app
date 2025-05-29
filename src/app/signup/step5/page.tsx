@@ -1,8 +1,7 @@
 "use client";
 import { useRouter } from "next/navigation";
-import { useCreateProfile } from '@/api/profile';
 import { useSignupStore } from '@/store/useSignupStore';
-import { supabase } from '@/lib/supabase';
+import { useCreateProfile } from '@/api/upload';
 
 export default function SignupStep5() {
   const router = useRouter();

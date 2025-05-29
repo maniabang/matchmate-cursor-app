@@ -1,6 +1,5 @@
 import { profiles } from '../../messages/mocks/profiles';
 import ProfileView from '../ProfileView';
-import NavBar from "../../components/NavBar";
 
 export default function ProfileDetailPage({ params }: { params: { id: string } }) {
   const profile = profiles.find(p => p.id === params.id);

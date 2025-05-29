@@ -4,6 +4,8 @@ import { motion, useMotionValue, useTransform, AnimatePresence } from "framer-mo
 import Image from "next/image";
 import type { Profile } from "@/api/types";
 import Link from "next/link";
+import { useModalStore } from '@/store/modalStore';
+import { useRouter } from 'next/navigation';
 
 interface SwipeCardsProps {
   profiles: Profile[];
@@ -13,9 +15,24 @@ const SWIPE_THRESHOLD = 120;
 
 const SwipeCards: React.FC<SwipeCardsProps> = ({ profiles }) => {
   const [currentIndex, setCurrentIndex] = useState(profiles.length - 1);
+  const openModal = useModalStore((state) => state.openModal);
+  const router = useRouter();
 
   const handleSwipe = (dir: "left" | "right") => {
     setCurrentIndex((prev) => prev - 1);
+  };
+
+  // 카드 클릭 시 모달 띄우기
+  const handleCardClick = (profile: Profile) => {
+    openModal(null, {
+      title: '프로필 열람',
+      description: '프로필을 보려면 코인 1개가 소모됩니다. 계속하시겠습니까?',
+      confirmText: '확인',
+      cancelText: '취소',
+      onConfirm: () => {
+        router.push(`/profile/${profile.id}`);
+      },
+    });
   };
 
   // 현재 보여지는 카드만 드래그 가능하게 렌더링
@@ -79,6 +96,7 @@ const SwipeCards: React.FC<SwipeCardsProps> = ({ profiles }) => {
                   animate={{ scale: 1, opacity: 1 }}
                   exit={{ scale: 0.8, opacity: 0 }}
                   transition={{ type: "spring", stiffness: 300, damping: 30 }}
+                  onClick={() => handleCardClick(user)}
                 >
                   {/* LIKE 오버레이 */}
                   <motion.div
@@ -123,21 +141,18 @@ const SwipeCards: React.FC<SwipeCardsProps> = ({ profiles }) => {
                     }}
                   >NOPE</motion.div>
                   <Image src={profileSrc} alt="유저 이미지" width={320} height={294} style={{ width: "100%", height: "70%", objectFit: "cover" }} />
-                  <Link href={`/profile/${user.id}`} style={{ textDecoration: "none" }}>
-                    <div
-                      style={{
-                        width: "100%",
-                        padding: "20px 16px 24px 16px",
-                        background: "rgba(255,255,255,0.95)",
-                        borderBottomLeftRadius: 24,
-                        borderBottomRightRadius: 24,
-                        cursor: "pointer"
-                      }}
-                    >
-                      <span style={{ fontSize: "1.2rem", fontWeight: 600, color: "#EBA8A6" }}>{user.nickname}, {user.birth && (new Date().getFullYear() - new Date(user.birth).getFullYear())}</span><br />
-                      <span style={{ fontSize: "1rem", color: "#EBA8A6" }}>{user.region}, {user.job}</span>
-                    </div>
-                  </Link>
+                  <div
+                    style={{
+                      width: "100%",
+                      padding: "20px 16px 24px 16px",
+                      background: "rgba(255,255,255,0.95)",
+                      borderBottomLeftRadius: 24,
+                      borderBottomRightRadius: 24
+                    }}
+                  >
+                    <span style={{ fontSize: "1.2rem", fontWeight: 600, color: "#EBA8A6" }}>{user.nickname}, {user.birth && (new Date().getFullYear() - new Date(user.birth).getFullYear())}</span><br />
+                    <span style={{ fontSize: "1rem", color: "#EBA8A6" }}>{user.region}, {user.job}</span>
+                  </div>
                 </motion.div>
               </AnimatePresence>
             );
