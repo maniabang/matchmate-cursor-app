@@ -1,13 +1,18 @@
 import { createServerComponentClient } from "@supabase/auth-helpers-nextjs";
 import { cookies } from "next/headers";
+import { redirect } from "next/navigation";
 import NavBar from './NavBar';
 import BottomNav from '../components/BottomNav';
 import SwipeCards from './SwipeCards';
 
 export default async function Home() {
-  // SSR 환경에서 Supabase 클라이언트 생성
   const supabase = createServerComponentClient({ cookies });
   const { data: { user } } = await supabase.auth.getUser();
+
+  if (!user) {
+    redirect("/"); // 또는 "/login"
+  }
+
   const { data: myProfile } = await supabase
     .from("profiles")
     .select("*")

@@ -1,16 +1,32 @@
 "use client";
 import { useRouter } from "next/navigation";
+import { useUserStore } from '@/store/userStore';
+import { createClientComponentClient } from '@supabase/auth-helpers-nextjs';
 
 export default function ProfileView({ profile, isMyProfile }: { profile: any, isMyProfile: boolean }) {
   const router = useRouter();
+  const clearUser = useUserStore((state) => state.clearUser);
+  const supabase = createClientComponentClient();
+
   if (!profile) return <div>프로필 정보가 없습니다.</div>;
 
   const profileImg = profile.photo_urls?.[0] || "/images/profile-default-female.svg";
 
-  // 로그아웃 핸들러 (임시)
-  const handleLogout = () => {
-    // 실제로는 supabase.auth.signOut() 등 호출 필요
-    alert("로그아웃 기능은 추후 구현 예정입니다.");
+  // 로그아웃 핸들러
+  const handleLogout = async () => {
+    // supabase 로그아웃
+    await supabase.auth.signOut();
+    // zustand user 초기화
+    clearUser();
+    // 세션스토리지/로컬스토리지 모두 초기화
+    if (typeof window !== 'undefined') {
+      sessionStorage.clear();
+      localStorage.clear();
+      // 쿠키도 삭제 (document.cookie는 직접 삭제 필요)
+      document.cookie.split(';').forEach(function (c) {
+        document.cookie = c.replace(/^ +/, '').replace(/=.*/, '=;expires=' + new Date(0).toUTCString() + ';path=/');
+      });
+    }
     router.replace("/login");
   };
 

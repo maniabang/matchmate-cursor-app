@@ -1,9 +1,7 @@
 "use client";
-import { useRouter } from "next/navigation";
 import MainButtonGroup from "./components/MainButtonGroup";
 
 export default function Welcome() {
-  const router = useRouter();
   return (
     <div style={{ position: 'relative', width: '100vw', height: '100vh', overflow: 'hidden' }}>
       {/* 배경 영상 */}
@@ -60,7 +58,7 @@ export default function Welcome() {
         }}
       >
         {/* 버튼 그룹 */}
-        <MainButtonGroup router={router} />
+        <MainButtonGroup />
       </div>
     </div>
   );
