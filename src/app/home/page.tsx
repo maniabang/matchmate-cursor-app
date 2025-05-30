@@ -1,9 +1,8 @@
-// "use client" 삭제!
 import { createServerComponentClient } from "@supabase/auth-helpers-nextjs";
 import { cookies } from "next/headers";
-import NavBar from '../components/NavBar';
+import NavBar from './NavBar';
 import BottomNav from '../components/BottomNav';
-import SwipeCards from '../components/SwipeCards';
+import SwipeCards from './SwipeCards';
 
 export default async function Home() {
   // SSR 환경에서 Supabase 클라이언트 생성
@@ -13,6 +12,7 @@ export default async function Home() {
     .from("profiles")
     .select("*")
     .eq("id", user?.id)
+    .single();
 
   const { data: profiles } = await supabase
     .from("profiles")

@@ -1,6 +1,9 @@
 "use client"
 import Link from "next/link";
-import Logo from './Logo';
+import Logo from '../components/Logo';
+import { useUserStore } from '@/store/userStore';
+import { useEffect } from 'react';
+import Image from 'next/image';
 
 interface NavBarProps {
   user: any;
@@ -8,7 +11,13 @@ interface NavBarProps {
 }
 
 export default function NavBar({ user, title = "" }: NavBarProps) {
-  const profileImg = user?.[0]?.photo_urls?.[0] || "/images/profile-default-female.svg";
+  const setUser = useUserStore((state) => state.setUser);
+  useEffect(() => {
+    if (user) setUser(user);
+  }, [user, setUser]);
+
+  const profileImg = user?.photo_urls?.[0] || "/images/profile-default-female.svg";
+
   return (
     <nav style={{
       height: 56,
@@ -29,11 +38,13 @@ export default function NavBar({ user, title = "" }: NavBarProps) {
         {title}
       </div>
       <div style={{ flex: 1, display: 'flex', justifyContent: 'flex-end', alignItems: 'center' }}>
-        <Link href={user?.[0]?.id ? `/profile/${user?.[0]?.id}` : "/login"}>
-          <img
+        <Link href={user?.id ? `/profile/${user?.id}` : "/login"}>
+          <Image
             src={profileImg}
             alt="내 프로필"
-            style={{ width: 36, height: 36, borderRadius: '50%', overflow: 'hidden', border: '1.5px solid #A6C8EB', background: '#fff' }}
+            width={36}
+            height={36}
+            style={{ width: 36, height: 36, borderRadius: '50%', overflow: 'hidden' }}
           />
         </Link>
       </div>

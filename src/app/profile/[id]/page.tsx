@@ -2,15 +2,19 @@
 import { useParams } from "next/navigation";
 import { useProfile } from '@/api/profile';
 import ProfileView from '../ProfileView';
+import { useUserStore } from '@/store/userStore';
 
 export default function ProfileDetailPage() {
   const { id } = useParams();
   const { data: profile, isLoading, error } = useProfile(id as string);
+  const user = useUserStore((state) => state.user);
+  console.log('user', user)
   if (isLoading) return <div className="p-8 text-center text-gray-400">로딩 중...</div>;
   if (error || !profile) return <div className="p-8 text-center text-gray-400">프로필 정보를 찾을 수 없습니다.</div>;
+
   return (
     <>
-      <ProfileView profile={profile} isMyProfile={true} />
+      <ProfileView profile={profile} isMyProfile={user?.id === id} />
     </>
   );
 } 

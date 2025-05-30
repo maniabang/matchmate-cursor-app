@@ -3,7 +3,6 @@ import { useRouter } from "next/navigation";
 
 export default function ProfileView({ profile, isMyProfile }: { profile: any, isMyProfile: boolean }) {
   const router = useRouter();
-  console.log(profile)
   if (!profile) return <div>프로필 정보가 없습니다.</div>;
 
   const profileImg = profile.photo_urls?.[0] || "/images/profile-default-female.svg";

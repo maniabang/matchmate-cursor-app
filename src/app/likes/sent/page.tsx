@@ -3,7 +3,7 @@ import { useRouter } from 'next/navigation';
 import Image from 'next/image';
 import { useModalStore } from '@/store/modalStore';
 import BottomNav from '@/app/components/BottomNav';
-import NavBar from '@/app/components/NavBar';
+import NavBar from '@/app/home/NavBar';
 
 const likesSent = [
   { id: '3', name: '박소연', age: 26, region: '대구', job: '개발자', profile: '' },

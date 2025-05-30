@@ -15,7 +15,6 @@ export default function LoginForm({ email, setEmail, password, setPassword }: Lo
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
   const setUser = useUserStore((state) => state.setUser);
-  const setToken = useUserStore((state) => state.setToken);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -24,7 +23,6 @@ export default function LoginForm({ email, setEmail, password, setPassword }: Lo
     try {
       const data = await signIn({ email, password });
       setUser(data.user);
-      setToken(data.session?.access_token ?? null);
       router.replace("/home");
     } catch (err: any) {
       setError(err.message || '로그인에 실패했습니다.');

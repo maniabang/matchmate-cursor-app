@@ -1,5 +1,5 @@
 import MessageList from './MessageList';
-import NavBar from "../components/NavBar";
+import NavBar from "../home/NavBar";
 import BottomNav from "../components/BottomNav";
 
 export default function MessagesPage() {

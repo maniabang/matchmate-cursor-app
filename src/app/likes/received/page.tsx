@@ -2,7 +2,7 @@
 import { useRouter } from 'next/navigation';
 import Image from 'next/image';
 import BottomNav from '@/app/components/BottomNav';
-import NavBar from "../../components/NavBar";
+import NavBar from "../../home/NavBar";
 
 const likesReceived = [
   { id: '1', name: '이수진', age: 28, region: '서울', job: '디자이너', profile: '' },
