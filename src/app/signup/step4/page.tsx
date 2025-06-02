@@ -4,6 +4,7 @@ import { useState } from "react";
 import InterestTagSelector from './InterestTagSelector';
 import IdealTypeSelector from './IdealTypeSelector';
 import { useSignupStore } from '@/store/useSignupStore';
+import { profileBackButtonStyle } from '@/app/components/styles/ProfileButton.styles';
 
 const TAGS = [
   "운동", "여행", "음악감상", "영화", "독서", "맛집탐방", "요리", "반려동물", "게임", "사진", "드라이브", "쇼핑", "자연", "예술", "자기계발", "카페"
@@ -35,18 +36,7 @@ export default function SignupStep4() {
       {/* 뒤로가기 버튼 */}
       <button
         onClick={() => router.back()}
-        style={{
-          position: 'absolute',
-          top: 24,
-          left: 20,
-          background: 'none',
-          border: 'none',
-          fontSize: '1.5rem',
-          color: '#EBA8A6',
-          cursor: 'pointer',
-          zIndex: 10,
-          padding: 0,
-        }}
+        style={profileBackButtonStyle}
         aria-label="뒤로가기"
       >
         ←

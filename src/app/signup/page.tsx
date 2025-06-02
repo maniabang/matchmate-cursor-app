@@ -5,6 +5,7 @@ import SignupForm from "./SignupForm";
 import { useSignupStore } from '@/store/useSignupStore';
 import { supabase } from '@/lib/supabase';
 import { useModalStore } from '@/store/modalStore';
+import { profileBackButtonStyle } from '../components/styles/ProfileButton.styles';
 
 export default function Signup() {
   const router = useRouter();
@@ -57,18 +58,7 @@ export default function Signup() {
       {/* 뒤로가기 버튼 */}
       <button
         onClick={() => router.back()}
-        style={{
-          position: 'absolute',
-          top: 24,
-          left: 20,
-          background: 'none',
-          border: 'none',
-          fontSize: '1.5rem',
-          color: '#EBA8A6',
-          cursor: 'pointer',
-          zIndex: 10,
-          padding: 0,
-        }}
+        style={profileBackButtonStyle}
         aria-label="뒤로가기"
       >
         ←

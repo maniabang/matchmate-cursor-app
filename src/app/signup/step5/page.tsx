@@ -2,6 +2,7 @@
 import { useRouter } from "next/navigation";
 import { useSignupStore } from '@/store/useSignupStore';
 import { useCreateProfile } from '@/api/upload';
+import { profileBackButtonStyle } from '@/app/components/styles/ProfileButton.styles';
 
 export default function SignupStep5() {
   const router = useRouter();
@@ -70,18 +71,7 @@ export default function SignupStep5() {
       {/* 뒤로가기 버튼 */}
       <button
         onClick={() => router.back()}
-        style={{
-          position: 'absolute',
-          top: 24,
-          left: 20,
-          background: 'none',
-          border: 'none',
-          fontSize: '1.5rem',
-          color: '#EBA8A6',
-          cursor: 'pointer',
-          zIndex: 10,
-          padding: 0,
-        }}
+        style={profileBackButtonStyle}
         aria-label="뒤로가기"
       >
         ←

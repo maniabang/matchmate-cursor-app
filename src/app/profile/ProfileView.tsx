@@ -2,6 +2,7 @@
 import { useRouter } from "next/navigation";
 import { useUserStore } from '@/store/userStore';
 import { createClientComponentClient } from '@supabase/auth-helpers-nextjs';
+import { profileBackButtonStyle } from '../components/styles/ProfileButton.styles';
 
 export default function ProfileView({ profile, isMyProfile }: { profile: any, isMyProfile: boolean }) {
   const router = useRouter();
@@ -35,22 +36,23 @@ export default function ProfileView({ profile, isMyProfile }: { profile: any, is
     router.push(`/profile/${profile.id}/edit`);
   };
 
+  const profileButtonStyle = {
+    background: "#EBA8A6",
+    color: "#fff",
+    border: "none",
+    padding: "12px 24px",
+    borderRadius: 12,
+    fontSize: "1rem",
+    fontWeight: 600,
+    cursor: "pointer",
+    marginBottom: 12
+  };
+
   return (
     <div style={{ padding: 32, maxWidth: 400, margin: "0 auto", position: "relative", minHeight: '100vh', display: 'flex', flexDirection: 'column' }}>
       <button
         onClick={() => router.back()}
-        style={{
-          position: 'absolute',
-          top: 8,
-          left: 8,
-          background: 'none',
-          border: 'none',
-          fontSize: '1.5rem',
-          color: '#EBA8A6',
-          cursor: 'pointer',
-          zIndex: 10,
-          padding: 0,
-        }}
+        style={profileBackButtonStyle}
         aria-label="뒤로가기"
       >
         ←
@@ -58,14 +60,14 @@ export default function ProfileView({ profile, isMyProfile }: { profile: any, is
       <div style={{ display: "flex", flexDirection: "column", alignItems: "center", marginBottom: 24 }}>
         <div style={{
           width: 112, height: 112, borderRadius: "50%", overflow: "hidden",
-          border: "2px solid #A6C8EB", marginBottom: 12
+          border: "2px solid #FFF6F5", marginBottom: 12
         }}>
           <img src={profileImg} alt="프로필" style={{ width: "100%", height: "100%", objectFit: "cover" }} />
         </div>
         <div style={{ fontSize: "1.3rem", fontWeight: 700, color: "#EBA8A6", marginBottom: 4 }}>
           {profile.nickname || profile.name}, {profile.age}
         </div>
-        <div style={{ color: "#A6C8EB", fontWeight: 500, marginBottom: 8 }}>
+        <div style={{ color: "#EBA8A6", fontWeight: 500, marginBottom: 8 }}>
           {profile.region} · {profile.job} · {profile.mbti}
         </div>
       </div>
@@ -95,7 +97,7 @@ export default function ProfileView({ profile, isMyProfile }: { profile: any, is
             {profile.ideals.length > 0
               ? profile.ideals.map((v: string, i: number) => (
                 <span key={i} style={{
-                  background: "#A6C8EB", color: "#fff", borderRadius: 12, padding: "4px 12px", fontSize: 13
+                  background: "#EBA8A6", color: "#fff", borderRadius: 12, padding: "4px 12px", fontSize: 13
                 }}>#{v}</span>
               ))
               : <span style={{ color: "#aaa" }}>이상형 정보가 없습니다.</span>
@@ -106,37 +108,10 @@ export default function ProfileView({ profile, isMyProfile }: { profile: any, is
       {/* 하단 버튼: 내 프로필일 때만 노출 */}
       {isMyProfile && (
         <div style={{ marginTop: 'auto', display: 'flex', flexDirection: 'column', gap: 12 }}>
-          <button
-            onClick={handleEdit}
-            style={{
-              width: '100%',
-              padding: '12px 0',
-              background: '#A6C8EB',
-              color: '#fff',
-              border: 'none',
-              borderRadius: 8,
-              fontWeight: 600,
-              fontSize: 16,
-              marginBottom: 8,
-              cursor: 'pointer',
-            }}
-          >
+          <button onClick={handleEdit} style={profileButtonStyle}>
             프로필 편집
           </button>
-          <button
-            onClick={handleLogout}
-            style={{
-              width: '100%',
-              padding: '12px 0',
-              background: '#EBA8A6',
-              color: '#fff',
-              border: 'none',
-              borderRadius: 8,
-              fontWeight: 600,
-              fontSize: 16,
-              cursor: 'pointer',
-            }}
-          >
+          <button onClick={handleLogout} style={profileButtonStyle}>
             로그아웃
           </button>
         </div>
