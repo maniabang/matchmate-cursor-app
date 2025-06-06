@@ -33,7 +33,7 @@ export default function ProfileView({ profile, isMyProfile }: { profile: any, is
 
   // 프로필 편집 핸들러 (임시)
   const handleEdit = () => {
-    router.push(`/profile/${profile.id}/edit`);
+    router.push(`/profile/edit`);
   };
 
   const profileButtonStyle = {
