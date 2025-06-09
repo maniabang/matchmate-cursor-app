@@ -5,7 +5,6 @@ import ProfileImageUploader from '@/app/signup/step2/ProfileImageUploader';
 import BasicInfoForm from '@/app/signup/step3/BasicInfoForm';
 import InterestTagSelector from '@/app/signup/step4/InterestTagSelector';
 import IdealTypeSelector from '@/app/signup/step4/IdealTypeSelector';
-import { profileBackButtonStyle } from '../components/styles/ProfileButton.styles';
 import { useRouter } from 'next/navigation';
 
 interface ProfileEditProps {
@@ -18,7 +17,6 @@ export default function ProfileEdit({ profile }: ProfileEditProps) {
     (profile.photo_urls || []).map((url: string) => ({ url, path: null })).concat(Array(6).fill({ url: null, path: null })).slice(0, 6)
   );
   // 기본 정보
-  const [nickname, setNickname] = useState(profile.nickname || '');
   const [birth, setBirth] = useState(profile.birth || '');
   const [job, setJob] = useState(profile.job || '');
   const [region, setRegion] = useState(profile.region || '');
@@ -34,7 +32,6 @@ export default function ProfileEdit({ profile }: ProfileEditProps) {
   const handleSave = () => {
     console.log({
       images,
-      nickname,
       birth,
       job,
       region,
@@ -93,8 +90,6 @@ export default function ProfileEdit({ profile }: ProfileEditProps) {
 
       {/* 기본 정보 입력 폼 (닉네임, 생년월일, 성별, 직업, 지역, MBTI 등) */}
       <div style={{ margin: '24px 0' }}>
-        <label style={{ color: '#EBA8A6', fontWeight: 600, fontSize: '1rem', marginBottom: 2 }}>닉네임</label>
-        <input type="text" className="input" value={nickname} onChange={e => setNickname(e.target.value)} style={{ width: '100%', padding: '10px 16px', borderRadius: 12, border: '1.5px solid #EBA8A6', fontSize: '1rem', marginBottom: 8 }} />
         <BasicInfoForm
           birth={birth} setBirth={setBirth}
           gender={gender} setGender={setGender}
@@ -102,6 +97,7 @@ export default function ProfileEdit({ profile }: ProfileEditProps) {
           region={region} setRegion={setRegion}
           mbti={mbti} setMbti={setMbti}
           onSubmit={e => e.preventDefault()}
+          isEdit={true}
         />
       </div>
 

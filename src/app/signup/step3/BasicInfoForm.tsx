@@ -23,9 +23,10 @@ interface BasicInfoFormProps {
   mbti: string;
   setMbti: (v: string) => void;
   onSubmit: (e: React.FormEvent) => void;
+  isEdit?: boolean;
 }
 
-export default function BasicInfoForm({ birth, setBirth, gender, setGender, job, setJob, region, setRegion, mbti, setMbti, onSubmit }: BasicInfoFormProps) {
+export default function BasicInfoForm({ birth, setBirth, gender, setGender, job, setJob, region, setRegion, mbti, setMbti, onSubmit, isEdit = false }: BasicInfoFormProps) {
   return (
     <form style={{
       display: 'flex',
@@ -36,7 +37,7 @@ export default function BasicInfoForm({ birth, setBirth, gender, setGender, job,
       borderRadius: 20,
       boxShadow: '0 4px 24px rgba(235,168,166,0.10)',
       padding: '40px 28px',
-      marginTop: 80,
+      marginTop: isEdit ? 0 : 80,
     }} onSubmit={onSubmit}>
       {/* 안내문구 */}
       <div style={{

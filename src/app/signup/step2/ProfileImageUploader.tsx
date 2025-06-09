@@ -43,9 +43,35 @@ export default function ProfileImageUploader({ images, setImages, userId }: Prof
 
   return (
     <>
-      <div style={{ display: 'flex', gap: 10, flexWrap: 'wrap', justifyContent: 'center', marginBottom: 8 }}>
+      <div
+        style={{
+          display: 'grid',
+          gridTemplateColumns: 'repeat(3, 1fr)',
+          gap: 12,
+          justifyItems: 'center',
+          alignItems: 'center',
+          marginBottom: 8,
+          marginTop: 8,
+        }}
+      >
         {images.map((img, idx) => (
-          <div key={idx} style={{ position: 'relative' }}>
+          <div
+            key={idx}
+            style={{
+              width: 100,
+              height: 100,
+              borderRadius: 16,
+              background: '#F5F5F5',
+              border: img.url ? 'none' : '2px dashed #EBA8A6',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              position: 'relative',
+              overflow: 'hidden',
+              cursor: 'pointer',
+            }}
+            onClick={() => fileInputRefs[idx].current?.click()}
+          >
             <input
               type="file"
               accept="image/*"
@@ -53,47 +79,30 @@ export default function ProfileImageUploader({ images, setImages, userId }: Prof
               style={{ display: 'none' }}
               onChange={e => handleFileChange(idx, e)}
             />
-            <div
-              onClick={() => fileInputRefs[idx].current?.click()}
-              style={{
-                width: 64,
-                height: 64,
-                borderRadius: '50%',
-                background: '#FFF6F5',
-                border: '2px dashed #EBA8A6',
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                cursor: 'pointer',
-                overflow: 'hidden',
-                position: 'relative',
-              }}
-            >
-              {img.url ? (
-                <img src={img.url} alt={`프로필${idx + 1}`} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
-              ) : (
-                <span style={{ color: '#EBA8A6', fontSize: 24 }}>+</span>
-              )}
-            </div>
+            {img.url ? (
+              <img src={img.url} alt={`프로필${idx + 1}`} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+            ) : (
+              <span style={{ color: '#EBA8A6', fontSize: 32, fontWeight: 700 }}>+</span>
+            )}
             {img.url && (
               <button
                 type="button"
                 onClick={e => { e.stopPropagation(); handleDelete(idx); }}
                 style={{
                   position: 'absolute',
-                  top: -8,
-                  right: -8,
+                  top: 6,
+                  right: 6,
                   background: '#fff',
                   border: '1.5px solid #EBA8A6',
                   borderRadius: '50%',
-                  width: 22,
-                  height: 22,
+                  width: 24,
+                  height: 24,
                   display: 'flex',
                   alignItems: 'center',
                   justifyContent: 'center',
                   color: '#EBA8A6',
                   fontWeight: 700,
-                  fontSize: 14,
+                  fontSize: 16,
                   cursor: 'pointer',
                   zIndex: 2,
                 }}
