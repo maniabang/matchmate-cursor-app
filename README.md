@@ -43,6 +43,7 @@ Next.js 기반의 PWA 앱으로, Supabase를 이용한 인증과 실시간 기�
 
 ## 2. 회원가입/로그인 연동 (이메일)
 - **SSR/CSR 인증 통합:**
+  - 회원가입 단계에서는 CSR (Local Storage 기반)
   - SSR(서버 컴포넌트, API Route 등)에서는 쿠키 기반 인증을 처리합니다.
 
 
