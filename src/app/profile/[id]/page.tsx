@@ -2,14 +2,17 @@
 import { useParams } from "next/navigation";
 import { useProfile } from '@/api/profile';
 import ProfileView from '../ProfileView';
-import { useMyProfileStore, useUserStore } from '@/store/userStore';
 import { useEffect } from 'react';
+import { useHydratedUserStore } from '@/store/useHydratedUserStore';
+import { useHydratedMyProfileStore } from '@/store/useHydratedUserStore';
 
 export default function ProfileDetailPage() {
   const { id } = useParams();
   const { data: profile, isLoading, error } = useProfile(id as string);
-  const user = useUserStore((state) => state.user);
-  const setMyProfile = useMyProfileStore((state) => state.setMyProfile);
+  
+  // persist가 적용된 훅 사용
+  const { user } = useHydratedUserStore();
+  const { setMyProfile } = useHydratedMyProfileStore();
 
   useEffect(() => {
     if (user?.id === id && profile) {
@@ -25,4 +28,4 @@ export default function ProfileDetailPage() {
       <ProfileView profile={profile} isMyProfile={user?.id === id} />
     </>
   );
-} 
+}

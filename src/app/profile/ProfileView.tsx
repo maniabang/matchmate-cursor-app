@@ -1,13 +1,14 @@
 "use client";
 import { useRouter } from "next/navigation";
-import { useUserStore } from '@/store/userStore';
 import { createClientComponentClient } from '@supabase/auth-helpers-nextjs';
 import { profileBackButtonStyle } from '../components/styles/ProfileButton.styles';
+import { useHydratedUserStore, useHydratedMyProfileStore } from '@/store/useHydratedUserStore';
 
 export default function ProfileView({ profile, isMyProfile }: { profile: any, isMyProfile: boolean }) {
   const router = useRouter();
-  const clearUser = useUserStore((state) => state.clearUser);
   const supabase = createClientComponentClient();
+  const { clearUser } = useHydratedUserStore();
+  const { clearMyProfile } = useHydratedMyProfileStore();
 
   if (!profile) return <div>프로필 정보가 없습니다.</div>;
 
@@ -19,6 +20,7 @@ export default function ProfileView({ profile, isMyProfile }: { profile: any, is
     await supabase.auth.signOut();
     // zustand user 초기화
     clearUser();
+    clearMyProfile();
     // 세션스토리지/로컬스토리지 모두 초기화
     if (typeof window !== 'undefined') {
       sessionStorage.clear();

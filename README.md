@@ -21,7 +21,7 @@ Next.js 기반의 PWA 앱으로, Supabase를 이용한 인증과 실시간 기�
 - **React Query** (서버 상태 관리)
 - **TypeScript**
 - **Vercel** (배포)
-- **Zustand** (전역 상태 관리)
+- **Zustand** (zustand persist 전역 상태 관리 + 새로고침 시 유지 추후 마이그레이션 진행 예정)
 - **PWA** (Progressive Web App)
 - 기타: @supabase/supabase-js, @tanstack/react-query, react 등
 
