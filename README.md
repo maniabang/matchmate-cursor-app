@@ -23,11 +23,11 @@ Next.js 기반의 PWA 앱으로, Supabase를 이용한 인증과 실시간 기�
 - **Vercel** (배포)
 - **Zustand** (zustand persist 전역 상태 관리 + 새로고침 시 유지 추후 마이그레이션 진행 예정)
 - **PWA** (Progressive Web App)
-- 기타: @supabase/supabase-js, @tanstack/react-query, react 등
+- 기타: @supabase/supabase-js(회원가입, 스토리지 이미지 업로드 시), @tanstack/react-query, react 등
 
 ## ⚡️ SSR(서버사이드 렌더링) 적용 안내
 
-- Next.js 13+ app 디렉토리 구조에서 SSR(Server Side Rendering) 기반으로 동작합니다.
+- Next.js 13+ app 디렉토리 구조에서 SSR(Server Side Rendering) 기반으로 동작(홈화면, SEO)
 - **API 라우트(핸들러)는 `src/app/api/` 하위에 위치해야 `/api/xxx` 엔드포인트로 동작합니다.**
 
 ## 1. Supabase 연동 준비
