@@ -1,8 +1,9 @@
 "use client";
 import { useRouter } from "next/navigation";
 import { useSignupStore } from '@/store/useSignupStore';
-import { useCreateProfile } from '@/api/upload';
+import { useCreateProfile } from '@/api/profile';
 import { profileBackButtonStyle } from '@/app/components/styles/ProfileButton.styles';
+import type { Profile } from '@/api/types';
 
 export default function SignupStep5() {
   const router = useRouter();
@@ -19,14 +20,14 @@ export default function SignupStep5() {
   const userId = useSignupStore(state => state.userId);
 
   const mutation = useCreateProfile({
-    onSuccess: (profile) => {
+    onSuccess: (profile: Profile) => {
       setProfile(profile);
       setLoading(false);
       setError(null);
       resetSignup();
       router.push('/signup/complete');
     },
-    onError: (err) => {
+    onError: (err: Error) => {
       setError(err.message || '회원가입에 실패했습니다. 다시 시도해 주세요.');
       setLoading(false);
     }

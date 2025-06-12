@@ -6,10 +6,9 @@ import BasicInfoForm from '@/app/signup/step3/BasicInfoForm';
 import InterestTagSelector from '@/app/signup/step4/InterestTagSelector';
 import IdealTypeSelector from '@/app/signup/step4/IdealTypeSelector';
 import { useRouter } from 'next/navigation';
-import { updateProfile, useProfile } from '@/api/profile';
 import { useUserStore, useMyProfileStore } from '@/store/userStore';
 import { useModalStore } from '@/store/modalStore';
-import { supabase } from '@/lib/supabase';
+import { useUpdateProfile } from '@/api/profile';
 
 interface ProfileEditProps {
   profile: Profile;
@@ -20,6 +19,7 @@ export default function ProfileEdit({ profile }: ProfileEditProps) {
   const user = useUserStore(state => state.user);
   const openModal = useModalStore(state => state.openModal);
   const setMyProfile = useMyProfileStore(state => state.setMyProfile);
+  const updateProfileMutation = useUpdateProfile();
   const [images, setImages] = useState<{ url: string | null, path: string | null }[]>(
     (profile.photo_urls || []).map((url: string) => ({ url, path: null })).concat(Array(6).fill({ url: null, path: null })).slice(0, 6)
   );
@@ -36,7 +36,7 @@ export default function ProfileEdit({ profile }: ProfileEditProps) {
   const [intro, setIntro] = useState(profile.intro || '');
 
   // 저장 버튼 클릭 시 (임시)
-  const handleSave = async () => {
+  const handleSave = () => {
     if (!user?.id) {
       openModal(null, {
         title: '오류',
@@ -45,45 +45,37 @@ export default function ProfileEdit({ profile }: ProfileEditProps) {
       });
       return;
     }
-    try {
-      const { data, error } = await supabase
-        .from('profiles')
-        .update({
-          photo_urls: images.map(img => img.url).filter(Boolean) as string[],
-          birth,
-          job,
-          region,
-          mbti,
-          gender,
-          interests,
-          ideals,
-          intro,
-        })
-        .eq('id', user.id)
-        .select();
-
-      if (error) {
-        openModal(null, {
-          title: '저장 실패',
-          description: error.message || '프로필 저장에 실패했습니다.',
-          confirmText: '확인',
-        });
-      } else {
-        setMyProfile(data?.[0]);
-        openModal(null, {
-          title: '저장 완료',
-          description: '프로필이 성공적으로 저장되었습니다.',
-          confirmText: '확인',
-          onConfirm: () => router.push(`/profile/${user.id}`),
-        });
+    updateProfileMutation.mutate(
+      {
+        photo_urls: images.map(img => img.url).filter(Boolean) as string[],
+        birth,
+        job,
+        region,
+        mbti,
+        gender,
+        interests,
+        ideals,
+        intro,
+      } as Partial<Profile>,
+      {
+        onSuccess: (updatedProfile) => {
+          setMyProfile(updatedProfile);
+          openModal(null, {
+            title: '저장 완료',
+            description: '프로필이 성공적으로 저장되었습니다.',
+            confirmText: '확인',
+            onConfirm: () => router.push(`/profile/${user.id}`),
+          });
+        },
+        onError: (err: any) => {
+          openModal(null, {
+            title: '저장 실패',
+            description: err?.message || '프로필 저장에 실패했습니다.',
+            confirmText: '확인',
+          });
+        },
       }
-    } catch (err: any) {
-      openModal(null, {
-        title: '저장 실패',
-        description: err?.message || '프로필 저장에 실패했습니다.',
-        confirmText: '확인',
-      });
-    }
+    );
   };
 
   return (

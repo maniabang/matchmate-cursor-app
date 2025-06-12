@@ -30,7 +30,7 @@ export default async function Home() {
       <section style={{ flex: 1, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center' }}>
         <SwipeCards profiles={profiles ?? []} />
       </section>
-      <BottomNav activeTab="home" />
+      <BottomNav activeTab="home" user={user} />
     </div>
   );
 }
