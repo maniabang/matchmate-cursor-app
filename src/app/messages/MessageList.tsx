@@ -1,5 +1,4 @@
 "use client";
-
 import MessageItem from './components/MessageItem';
 import { useRouter } from 'next/navigation';
 import { messages } from '../../mocks/messages';

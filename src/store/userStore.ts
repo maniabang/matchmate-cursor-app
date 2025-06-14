@@ -18,7 +18,6 @@ export const useUserStore = create<UserState>()(
     }),
     {
       name: 'user-storage', // localStorage 키 이름
-      skipHydration: true, // SSR 환경에서 hydration 문제 방지
       // 민감한 정보가 있다면 partialize로 필터링
       partialize: (state) => ({
         user: state.user ? {
