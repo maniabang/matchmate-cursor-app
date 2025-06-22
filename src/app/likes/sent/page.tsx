@@ -1,15 +1,9 @@
 import { createServerComponentClient } from '@supabase/auth-helpers-nextjs';
 import { cookies } from 'next/headers';
-import { redirect, useRouter } from 'next/navigation';
-import Image from 'next/image';
-import { useModalStore } from '@/store/modalStore';
+import { redirect } from 'next/navigation';
 import BottomNav from '@/app/components/BottomNav';
 import NavBar from '@/app/home/NavBar';
-
-const likesSent = [
-  { id: '3', name: '박소연', age: 26, region: '대구', job: '개발자', profile: '' },
-  { id: '4', name: '최유리', age: 29, region: '인천', job: '교사', profile: '' },
-];
+import LikesSent from '../LikesSent';
 
 export default async function LikesSentPage() {
 
@@ -25,61 +19,22 @@ export default async function LikesSentPage() {
     .eq("id", user.id)
     .single();
 
-  const router = useRouter();
-  const openModal = useModalStore(state => state.openModal);
-
-  const handleProfileClick = (id: string) => {
-    openModal(null, {
-      title: undefined,
-      description: '코인이 소모됩니다.\n그래도 열겠습니까?',
-      confirmText: '확인',
-      cancelText: '취소',
-      onConfirm: () => router.push(`/profile/${id}`),
-    });
-  };
-
   return (
-    <div className="bg-[#F8F8F8] min-h-screen flex flex-col">
-      <NavBar title="" user={myProfile} />
-      {/* 상단 탭 */}
-      <header className="flex items-center justify-center px-4 py-4 bg-white border-b border-gray-100">
-        <div className="flex gap-2 bg-[#F2EAEA] rounded-full p-1 shadow-sm">
-          <button
-            className={`px-6 py-2 rounded-full text-base font-semibold transition-colors text-gray-400`}
-            onClick={() => router.push('/likes/received')}
-          >
-            받은 좋아요
-          </button>
-          <button
-            className={`px-6 py-2 rounded-full text-base font-semibold transition-colors bg-white text-[#EBA8A6] shadow`}
-            onClick={() => router.push('/likes/sent')}
-          >
-            보낸 좋아요
-          </button>
-        </div>
-      </header>
-      <div className="flex-1 flex flex-col gap-5 px-4 py-6">
-        {likesSent.map(user => (
-          <div
-            key={user.id}
-            className="relative flex items-center bg-white rounded-2xl shadow-md px-5 py-4 hover:shadow-lg transition"
-          >
-            <div
-              className="flex items-center gap-4 cursor-pointer"
-              onClick={() => handleProfileClick(user.id)}
-            >
-              <div className="w-16 h-16 rounded-full overflow-hidden border border-gray-200 flex-shrink-0">
-                <Image src={user.profile && user.profile.trim() !== '' ? user.profile : '/images/profile-default-female.svg'} alt="프로필" width={64} height={64} className="w-full h-full object-cover" />
-              </div>
-              <div className="flex flex-col min-w-0">
-                <div className="font-semibold text-gray-900 text-lg truncate">{user.name}, {user.age}</div>
-                <div className="text-sm text-[#EBA8A6] truncate">{user.region}, {user.job}</div>
-              </div>
-            </div>
-          </div>
-        ))}
+    <div style={{ position: 'relative', minHeight: '100vh', background: '#fff' }}>
+      <div style={{ position: 'fixed', top: 0, left: 0, width: '100vw', zIndex: 10 }}>
+        <NavBar title="받은 좋아요" user={myProfile} />
       </div>
-      <BottomNav activeTab="match" />
+      <div style={{
+        paddingTop: 56,
+        paddingBottom: 60,
+        height: '100vh',
+        overflowY: 'auto',
+      }}>
+        <LikesSent />
+      </div>
+      <div style={{ position: 'fixed', bottom: 0, left: 0, width: '100vw', zIndex: 10 }}>
+        <BottomNav activeTab="match" user={user} />
+      </div>
     </div>
   );
 } 
