@@ -1,5 +1,6 @@
-"use client";
-import { useRouter } from 'next/navigation';
+import { createServerComponentClient } from '@supabase/auth-helpers-nextjs';
+import { cookies } from 'next/headers';
+import { redirect, useRouter } from 'next/navigation';
 import Image from 'next/image';
 import { useModalStore } from '@/store/modalStore';
 import BottomNav from '@/app/components/BottomNav';
@@ -10,7 +11,20 @@ const likesSent = [
   { id: '4', name: '최유리', age: 29, region: '인천', job: '교사', profile: '' },
 ];
 
-export default function LikesSentPage() {
+export default async function LikesSentPage() {
+
+  const supabase = createServerComponentClient({ cookies });
+  const { data: { user } } = await supabase.auth.getUser();
+
+  if (!user) {
+    redirect("/"); // 또는 "/login"
+  }
+  const { data: myProfile } = await supabase
+    .from("profiles")
+    .select("*")
+    .eq("id", user.id)
+    .single();
+
   const router = useRouter();
   const openModal = useModalStore(state => state.openModal);
 
@@ -26,7 +40,7 @@ export default function LikesSentPage() {
 
   return (
     <div className="bg-[#F8F8F8] min-h-screen flex flex-col">
-      <NavBar title="" />
+      <NavBar title="" user={myProfile} />
       {/* 상단 탭 */}
       <header className="flex items-center justify-center px-4 py-4 bg-white border-b border-gray-100">
         <div className="flex gap-2 bg-[#F2EAEA] rounded-full p-1 shadow-sm">

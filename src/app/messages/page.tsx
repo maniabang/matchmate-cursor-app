@@ -65,7 +65,7 @@ export default async function MessagesPage() {
         <MessageList messages={messageList} />
       </div>
       <div style={{ position: 'fixed', bottom: 0, left: 0, width: '100vw', zIndex: 10 }}>
-        <BottomNav activeTab="messages" />
+        <BottomNav activeTab="messages" user={user} />
       </div>
     </div>
   );
