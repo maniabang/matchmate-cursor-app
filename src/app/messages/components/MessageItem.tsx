@@ -38,7 +38,7 @@ export default function MessageItem({ profile, content, created_at, unread }: Me
       <div className="w-12 h-12 rounded-full overflow-hidden border border-gray-200 flex-shrink-0">
         <img src={profileSrc} alt="프로필" className="w-full h-full object-cover" />
       </div>
-      
+
       {/* 메인 콘텐츠 영역 */}
       <div className="flex-1 min-w-0">
         {/* 상단: 이름 + 시간 */}
@@ -46,7 +46,7 @@ export default function MessageItem({ profile, content, created_at, unread }: Me
           <span className="font-semibold text-gray-900 truncate">{name}</span>
           <span className="text-xs text-gray-400 ml-2 whitespace-nowrap flex-shrink-0">{time}</span>
         </div>
-        
+
         {/* 하단: 메시지 내용 + unread 뱃지 */}
         <div className="flex justify-between items-center">
           <span className="text-sm text-gray-500 truncate flex-1">{content}</span>

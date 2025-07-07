@@ -18,6 +18,14 @@ export default async function LikesReceivedPage() {
     .eq("id", user.id)
     .single();
 
+  const { data: profiles = [] } = await supabase
+    .from('profiles')
+    .select('*')
+    .neq('id', user.id)
+    .eq('gender', 'female');
+
+  console.log('profiles: ', profiles)
+
   return (
     <div style={{ position: 'relative', minHeight: '100vh', background: '#fff' }}>
       <div style={{ position: 'fixed', top: 0, left: 0, width: '100vw', zIndex: 10 }}>
@@ -29,7 +37,7 @@ export default async function LikesReceivedPage() {
         height: '100vh',
         overflowY: 'auto',
       }}>
-        <LikesReceived />
+        <LikesReceived profiles={profiles}/>
       </div>
       <div style={{ position: 'fixed', bottom: 0, left: 0, width: '100vw', zIndex: 10 }}>
         <BottomNav activeTab="match" user={user} />
