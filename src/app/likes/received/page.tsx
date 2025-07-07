@@ -37,7 +37,7 @@ export default async function LikesReceivedPage() {
         height: '100vh',
         overflowY: 'auto',
       }}>
-        <LikesReceived profiles={profiles}/>
+        <LikesReceived profiles={profiles || []} />
       </div>
       <div style={{ position: 'fixed', bottom: 0, left: 0, width: '100vw', zIndex: 10 }}>
         <BottomNav activeTab="match" user={user} />

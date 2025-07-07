@@ -2,15 +2,28 @@
 import { useRouter } from 'next/navigation';
 import Image from 'next/image';
 import { useModalStore } from '@/store/modalStore';
+import { Profile } from '@/api/types';
 
-const likesSent = [
-  { id: '3', name: '박소연', age: 26, region: '대구', job: '개발자', profile: '' },
-  { id: '4', name: '최유리', age: 29, region: '인천', job: '교사', profile: '' },
-];
 
-export default function LikesSent() {
+interface ProfileListProps {
+  profiles: Profile[];
+}
+
+// 나이 계산 함수
+function getAge(birth: string) {
+  const today = new Date();
+  const birthDate = new Date(birth);
+  let age = today.getFullYear() - birthDate.getFullYear();
+  const m = today.getMonth() - birthDate.getMonth();
+  if (m < 0 || (m === 0 && today.getDate() < birthDate.getDate())) {
+    age--;
+  }
+  return age;
+}
+
+export default function LikesSent({ profiles }: ProfileListProps) {
   const router = useRouter();
-  const list = likesSent
+  const defaultProfile = '/images/profile-default-female.svg';
 
   const openModal = useModalStore(state => state.openModal);
 
@@ -43,8 +56,15 @@ export default function LikesSent() {
         </div>
       </header>
       <div className="flex-1 flex flex-col gap-5 px-4 py-6">
-        {list.map(user => (
-          <div
+        {profiles.map(user => {
+          // 프로필 이미지 처리
+          let profileImg = '/images/profile-default-female.svg';
+          if (user.photo_urls && user.photo_urls.length > 0 && user.photo_urls[0]) {
+            profileImg = user.photo_urls[0];
+          } else if (user.gender === 'male') {
+            profileImg = defaultProfile;
+          }
+          return (<div
             key={user.id}
             className="relative flex items-center bg-white rounded-2xl shadow-md px-5 py-4 hover:shadow-lg transition"
           >
@@ -60,15 +80,15 @@ export default function LikesSent() {
               onClick={() => handleProfileClick(user.id)}
             >
               <div className="w-16 h-16 rounded-full overflow-hidden border border-gray-200 flex-shrink-0">
-                <Image src={user.profile && user.profile.trim() !== '' ? user.profile : '/images/profile-default-female.svg'} alt="프로필" width={64} height={64} className="w-full h-full object-cover" />
+                <Image src={profileImg} alt="프로필" width={64} height={64} className="w-full h-full object-cover" />
               </div>
               <div className="flex flex-col min-w-0">
-                <div className="font-semibold text-gray-900 text-lg truncate">{user.name}, {user.age}</div>
+                <div className="font-semibold text-gray-900 text-lg truncate">{user.nickname}, {user.birth ? getAge(user.birth) : ''}</div>
                 <div className="text-sm text-[#EBA8A6] truncate">{user.region}, {user.job}</div>
               </div>
             </div>
-          </div>
-        ))}
+          </div>)
+        })}
       </div>
     </div>
   );

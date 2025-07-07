@@ -19,6 +19,18 @@ export default async function LikesSentPage() {
     .eq("id", user.id)
     .single();
 
+  const { data: profiles = [] } = await supabase
+    .from('profiles')
+    .select('*')
+    .neq('id', user.id);
+
+  function getRandomItems(arr: any, n: number) {
+    const shuffled = arr.sort(() => 0.5 - Math.random());
+    return shuffled.slice(0, n);
+  }
+
+  const randomProfiles = getRandomItems(profiles, 2);
+
   return (
     <div style={{ position: 'relative', minHeight: '100vh', background: '#fff' }}>
       <div style={{ position: 'fixed', top: 0, left: 0, width: '100vw', zIndex: 10 }}>
@@ -30,7 +42,7 @@ export default async function LikesSentPage() {
         height: '100vh',
         overflowY: 'auto',
       }}>
-        <LikesSent />
+        <LikesSent profiles={randomProfiles || []} />
       </div>
       <div style={{ position: 'fixed', bottom: 0, left: 0, width: '100vw', zIndex: 10 }}>
         <BottomNav activeTab="match" user={user} />
