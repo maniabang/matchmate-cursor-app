@@ -1,7 +1,7 @@
 import { createServerComponentClient } from '@supabase/auth-helpers-nextjs';
 import { cookies } from "next/headers";
 import MessageList from './MessageList';
-import NavBar from "../home/NavBar";
+import NavBar from "../components/NavBar";
 import BottomNav from "../components/BottomNav";
 import { redirect } from 'next/navigation';
 

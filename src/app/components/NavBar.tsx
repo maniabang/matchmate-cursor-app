@@ -1,6 +1,6 @@
 "use client"
 import Link from "next/link";
-import Logo from '../components/Logo';
+import Logo from './Logo';
 import { useUserStore } from '@/store/userStore';
 import { useEffect } from 'react';
 import Image from 'next/image';

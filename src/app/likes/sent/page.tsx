@@ -2,7 +2,7 @@ import { createServerComponentClient } from '@supabase/auth-helpers-nextjs';
 import { cookies } from 'next/headers';
 import { redirect } from 'next/navigation';
 import BottomNav from '@/app/components/BottomNav';
-import NavBar from '@/app/home/NavBar';
+import NavBar from '@/app/components/NavBar';
 import LikesSent from '../LikesSent';
 
 export default async function LikesSentPage() {
