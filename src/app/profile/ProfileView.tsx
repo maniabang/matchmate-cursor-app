@@ -3,7 +3,7 @@ import { useRouter } from "next/navigation";
 import { createClientComponentClient } from '@supabase/auth-helpers-nextjs';
 import { profileBackButtonStyle } from '../components/styles/ProfileButton.styles';
 import { useHydratedUserStore, useHydratedMyProfileStore } from '@/store/useHydratedUserStore';
-import { useModalStore } from '@/store/modalStore';
+import ProfileButton from './ProfileButton';
 
 export default function ProfileView({ profile, isMyProfile }: { profile: any, isMyProfile: boolean }) {
   const router = useRouter();
@@ -50,8 +50,6 @@ export default function ProfileView({ profile, isMyProfile }: { profile: any, is
     cursor: "pointer",
     marginBottom: 12
   };
-
-  const openModal = useModalStore((state) => state.openModal);
 
   return (
     <div style={{ padding: 32, maxWidth: 400, margin: "0 auto", position: "relative", minHeight: '100vh', display: 'flex', flexDirection: 'column' }}>
@@ -110,50 +108,12 @@ export default function ProfileView({ profile, isMyProfile }: { profile: any, is
           </div>
         </div>
       )}
-      <div style={{ marginTop: 'auto', display: 'flex', flexDirection: 'column', gap: 12 }}>
-        {isMyProfile ? (
-          <>
-            <button onClick={handleEdit} style={profileButtonStyle}>
-              프로필 편집
-            </button>
-            <button onClick={handleLogout} style={profileButtonStyle}>
-              로그아웃
-            </button>
-          </>
-        ) : <>
-          <button
-            className="px-4 py-2 rounded-full bg-[#EBA8A6]/10 text-[#EBA8A6] font-semibold hover:bg-[#EBA8A6]/20 transition"
-            onClick={e => {
-              e.stopPropagation();
-              openModal(null, {
-                title: '좋아요 보내기',
-                description: '좋아요를 보내려면 1코인이 소모됩니다.\n진행하시겠습니까?',
-                confirmText: '확인',
-                cancelText: '취소',
-                onConfirm: () => {
-                },
-              });
-            }}
-          >
-            좋아요
-          </button>
-          <button
-            className="px-4 py-2 rounded-full bg-[#EBA8A6]/10 text-[#EBA8A6] font-semibold hover:bg-[#EBA8A6]/20 transition"
-            onClick={e => {
-              e.stopPropagation();
-              openModal(null, {
-                title: '메시지 보내기',
-                description: '메시지를 보내려면 2코인이 소모됩니다.\n진행하시겠습니까?',
-                confirmText: '확인',
-                cancelText: '취소',
-                onConfirm: () => {
-                },
-              });
-            }}
-          >
-            메시지 보내기
-          </button></>}
-      </div>
+      <ProfileButton
+        isMyProfile={isMyProfile}
+        onEdit={handleEdit}
+        onLogout={handleLogout}
+        profileButtonStyle={profileButtonStyle}
+      />
     </div>
   );
 } 
