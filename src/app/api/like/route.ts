@@ -18,7 +18,7 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ error: 'senderId mismatch' }, { status: 403 });
   }
   // Supabase RPC 호출
-  const { data, error } = await supabase.rpc('send_like', { p_sender_id: senderId, p_receiver_id: receiverId });
+  const { data, error } =  await supabase.rpc('send_like', { p_sender_id: senderId, p_receiver_id: receiverId });
   if (error) {
     return NextResponse.json({ error: error.message }, { status: 400 });
   }

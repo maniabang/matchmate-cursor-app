@@ -1,6 +1,13 @@
 import { useMutation } from '@tanstack/react-query';
+import { UseMutationOptions, UseMutationResult } from '@tanstack/react-query';
 
-export async function sendLike({ senderId, receiverId }: { senderId: string, receiverId: string }) {
+export interface LikeRequest {
+  senderId: string;
+  receiverId: string;
+}
+
+export async function sendLike<TVariables extends LikeRequest>(variables: TVariables) {
+  const { senderId, receiverId } = variables;
   const res = await fetch('/api/like', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
@@ -10,8 +17,10 @@ export async function sendLike({ senderId, receiverId }: { senderId: string, rec
   return res.json();
 }
 
-export function useSendLike(options?: any) {
-  return useMutation({
+export function useSendLike<TData = any, TError = Error, TVariables extends LikeRequest = LikeRequest, TContext = unknown>(
+  options?: UseMutationOptions<TData, TError, TVariables, TContext>
+): UseMutationResult<TData, TError, TVariables, TContext> {
+  return useMutation<TData, TError, TVariables, TContext>({
     mutationFn: sendLike,
     ...options,
   });

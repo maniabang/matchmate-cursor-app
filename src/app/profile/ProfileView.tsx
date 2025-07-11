@@ -113,6 +113,7 @@ export default function ProfileView({ profile, isMyProfile }: { profile: any, is
         onEdit={handleEdit}
         onLogout={handleLogout}
         profileButtonStyle={profileButtonStyle}
+        targetId={profile.id} 
       />
     </div>
   );
