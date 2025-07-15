@@ -24,8 +24,6 @@ export default async function LikesReceivedPage() {
     .neq('id', user.id)
     .eq('gender', 'female');
 
-  console.log('profiles: ', profiles)
-
   return (
     <div style={{ position: 'relative', minHeight: '100vh', background: '#fff' }}>
       <div style={{ position: 'fixed', top: 0, left: 0, width: '100vw', zIndex: 10 }}>
