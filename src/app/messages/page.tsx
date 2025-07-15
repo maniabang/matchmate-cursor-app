@@ -62,7 +62,7 @@ export default async function MessagesPage() {
         height: '100vh',
         overflowY: 'auto',
       }}>
-        <MessageList messages={messageList} />
+        <MessageList messages={messageList} myId={user.id} />
       </div>
       <div style={{ position: 'fixed', bottom: 0, left: 0, width: '100vw', zIndex: 10 }}>
         <BottomNav activeTab="messages" user={user} />
