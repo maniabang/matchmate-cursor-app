@@ -196,3 +196,36 @@ CREATE POLICY "Users can send likes" ON likes
 -- 사용자는 자신이 받은 좋아요만 업데이트할 수 있음
 CREATE POLICY "Users can update received likes" ON likes
     FOR UPDATE USING (auth.uid() = receiver_id);
+
+ALTER TABLE likes ADD COLUMN type text DEFAULT 'like'; -- 'like' 또는 'super_like'
+
+CREATE OR REPLACE FUNCTION check_like_status_v2(
+    p_user_id uuid,
+    p_target_id uuid
+) RETURNS json AS $$
+DECLARE
+    sent_like likes%rowtype;
+    received_like likes%rowtype;
+BEGIN
+    -- 내가 보낸 좋아요
+    SELECT * INTO sent_like 
+    FROM likes 
+    WHERE sender_id = p_user_id AND receiver_id = p_target_id;
+
+    -- 상대방이 보낸 좋아요
+    SELECT * INTO received_like 
+    FROM likes 
+    WHERE sender_id = p_target_id AND receiver_id = p_user_id;
+
+    RETURN json_build_object(
+        'sent_like', sent_like.id IS NOT NULL,
+        'sent_like_type', sent_like.type,
+        'received_like', received_like.id IS NOT NULL,
+        'received_like_type', received_like.type,
+        'matched', (
+            (sent_like.type = 'super_like' AND received_like.type = 'like') OR
+            (sent_like.type = 'like' AND received_like.type = 'super_like')
+        )
+    );
+END;
+$$ LANGUAGE plpgsql;
