@@ -17,9 +17,8 @@ const ProfileButton: React.FC<ProfileButtonProps> = ({
   onEdit,
   onLogout,
   profileButtonStyle,
-  targetId
+  targetId,
 }) => {
-
   const openModal = useModalStore((state) => state.openModal);
   const [resultMsg, setResultMsg] = useState('');
   const user = useUserStore((state) => state.user);
@@ -30,7 +29,7 @@ const ProfileButton: React.FC<ProfileButtonProps> = ({
     },
     onError: (err: Error) => {
       setResultMsg(err.message || '좋아요 전송 중 오류가 발생했습니다.');
-    }
+    },
   });
   const forceMatchAndSendMessage = useForceMatchAndSendMessage<any, Error, MessageRequest>({
     onSuccess: () => {
@@ -38,35 +37,38 @@ const ProfileButton: React.FC<ProfileButtonProps> = ({
     },
     onError: (err: Error) => {
       setResultMsg(err.message || '메시지 전송 중 오류가 발생했습니다.');
-    }
+    },
   });
 
   const handleLike = () => {
-    sendLike.mutate({ senderId: myId, receiverId: targetId });
+    sendLike.mutate({ senderId: myId, receiverId: targetId, type: 'super_like' });
   };
 
   // 메시지 입력 모달 오픈 함수
   const openMessageInputModal = () => {
     let messageContent = '';
-    openModal((
+    openModal(
       <textarea
         autoFocus
         rows={4}
         style={{ width: '100%' }}
         placeholder="메시지를 입력하세요"
-        onChange={e => { messageContent = e.target.value; }}
-      />
-    ), {
-      title: '메시지 입력',
-      confirmText: '전송',
-      onConfirm: () => {
-        forceMatchAndSendMessage.mutate({
-          senderId: myId,
-          receiverId: targetId,
-          content: messageContent,
-        } as MessageRequest);
-      },
-    });
+        onChange={(e) => {
+          messageContent = e.target.value;
+        }}
+      />,
+      {
+        title: '메시지 입력',
+        confirmText: '전송',
+        onConfirm: () => {
+          forceMatchAndSendMessage.mutate({
+            senderId: myId,
+            receiverId: targetId,
+            content: messageContent,
+          } as MessageRequest);
+        },
+      }
+    );
   };
 
   // 메시지 보내기 버튼 클릭 시
@@ -97,7 +99,7 @@ const ProfileButton: React.FC<ProfileButtonProps> = ({
         <>
           <button
             className="px-4 py-2 rounded-full bg-[#EBA8A6]/10 text-[#EBA8A6] font-semibold hover:bg-[#EBA8A6]/20 transition"
-            onClick={e => {
+            onClick={(e) => {
               e.stopPropagation();
               openModal(null, {
                 title: '좋아요 보내기',
@@ -123,4 +125,4 @@ const ProfileButton: React.FC<ProfileButtonProps> = ({
   );
 };
 
-export default ProfileButton; 
+export default ProfileButton;
