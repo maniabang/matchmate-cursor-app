@@ -37,7 +37,7 @@ Next.js 기반의 PWA 앱으로, Supabase를 이용한 인증과 실시간 기�
    - anon public key
 3. `.env.local` 파일에 아래와 같이 입력
    ```env
-   NEXT_PUBLIC_SUPABASE_URL=복사한_프로젝트_URL
+   NEXT_PUBLIC_SUPABASE_URL=복사한_프로젝트_URL([프로젝트고유ID].supabase.co)
    NEXT_PUBLIC_SUPABASE_ANON_KEY=복사한_anon_key
    ```
 
