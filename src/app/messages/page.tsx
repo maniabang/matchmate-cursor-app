@@ -24,8 +24,6 @@ export default async function MessagesPage() {
     .eq('sender_id', user.id)
     .eq('type', 'messaged');
 
-  console.log(messagedLikes);
-
   const partnerIds = messagedLikes?.map((like) => like.receiver_id) || [];
 
   if (partnerIds.length === 0) {
