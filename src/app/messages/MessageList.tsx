@@ -1,10 +1,10 @@
-"use client";
+'use client';
 import MessageItem from './components/MessageItem';
 import { useRouter } from 'next/navigation';
 
 interface MessageListProps {
   messages: any[];
-  myId: string
+  myId: string;
 }
 
 export default function MessageList({ messages, myId }: MessageListProps) {
@@ -27,4 +27,4 @@ export default function MessageList({ messages, myId }: MessageListProps) {
       })}
     </ul>
   );
-} 
+}

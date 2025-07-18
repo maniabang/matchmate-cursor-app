@@ -35,7 +35,6 @@ export default async function Home() {
 
   const { data: profiles } = await query;
 
-  console.log(profiles);
 
   return (
     <div style={{ display: 'flex', flexDirection: 'column', minHeight: '100vh', background: '#fff' }}>
