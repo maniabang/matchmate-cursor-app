@@ -6,29 +6,34 @@ import NavBar from '@/app/components/NavBar';
 import LikesSent from '../LikesSent';
 
 export default async function LikesSentPage() {
-
   const supabase = createServerComponentClient({ cookies });
-  const { data: { user } } = await supabase.auth.getUser();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
 
   if (!user) {
-    redirect("/"); // 또는 "/login"
+    redirect('/'); // 또는 "/login"
   }
-  const { data: myProfile } = await supabase
-    .from("profiles")
-    .select("*")
-    .eq("id", user.id)
-    .single();
+  const { data: myProfile } = await supabase.from('profiles').select('*').eq('id', user.id).single();
 
-  const { data: profiles = [] } = await supabase
-    .from('profiles')
-    .select('*')
-    .neq('id', user.id);
+  // 1. 내가 보낸 'like'의 receiver_id 목록 조회
+  const { data: likeRows = [] } = await supabase
+    .from('likes')
+    .select('receiver_id')
+    .eq('sender_id', user.id)
+    .eq('type', 'like');
 
+  // 2. receiver_id만 추출
+  const receiverIds = likeRows?.map((row) => row.receiver_id) || [];
+
+  // 3. 해당 id의 프로필만 조회
+  const { data: profiles = [] } = await supabase.from('profiles').select('*').in('id', receiverIds);
+
+  // 4. 랜덤 2개 추출
   function getRandomItems(arr: any, n: number) {
     const shuffled = arr.sort(() => 0.5 - Math.random());
     return shuffled.slice(0, n);
   }
-
   const randomProfiles = getRandomItems(profiles, 2);
 
   return (
@@ -36,12 +41,14 @@ export default async function LikesSentPage() {
       <div style={{ position: 'fixed', top: 0, left: 0, width: '100vw', zIndex: 10 }}>
         <NavBar title="받은 좋아요" user={myProfile} />
       </div>
-      <div style={{
-        paddingTop: 56,
-        paddingBottom: 60,
-        height: '100vh',
-        overflowY: 'auto',
-      }}>
+      <div
+        style={{
+          paddingTop: 56,
+          paddingBottom: 60,
+          height: '100vh',
+          overflowY: 'auto',
+        }}
+      >
         <LikesSent profiles={randomProfiles || []} />
       </div>
       <div style={{ position: 'fixed', bottom: 0, left: 0, width: '100vw', zIndex: 10 }}>
@@ -49,4 +56,4 @@ export default async function LikesSentPage() {
       </div>
     </div>
   );
-} 
+}
