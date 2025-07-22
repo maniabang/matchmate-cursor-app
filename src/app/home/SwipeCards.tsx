@@ -39,7 +39,7 @@ const SwipeCards: React.FC<SwipeCardsProps> = ({ profiles }) => {
   const profile = profiles[currentIndex];
   const profileSrc = profile?.photo_urls?.[0] || '/images/profile-default-female.svg';
 
-  const handleSwipe = (dir: 'left' | 'right') => {
+  const handleSwipe = () => {
     setCurrentIndex((prev) => prev - 1);
     x.set(0);
     animating.current = false;
@@ -61,7 +61,7 @@ const SwipeCards: React.FC<SwipeCardsProps> = ({ profiles }) => {
       stiffness: 300,
       damping: 30,
       onComplete: () => {
-        handleSwipe(dir);
+        handleSwipe();
       },
     });
   };
@@ -78,33 +78,68 @@ const SwipeCards: React.FC<SwipeCardsProps> = ({ profiles }) => {
     });
   };
 
+  // 반응형 컨테이너 스타일
+  const responsiveContainerStyle = {
+    width: '100%',
+    height: '100%', // 부모 섹션의 전체 높이 사용
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    padding: '4px',
+    boxSizing: 'border-box' as const,
+    overflow: 'hidden',
+  };
+
+  // 반응형 카드 래퍼 스타일
+  const responsiveCardWrapperStyle = {
+    position: 'relative' as const,
+    width: 'min(95vw, 400px)',
+    height: 'calc(100vh - 120px)', // NavBar(56px) + BottomNav(60px) + 여유(4px) 제외
+    maxHeight: '85vh', // 최대 높이 제한
+    maxWidth: '400px',
+    margin: '0 auto',
+  };
+
+  // 반응형 카드 스타일
+  const responsiveCardStyle = {
+    ...cardStyle,
+    width: '100%',
+    height: '100%', // 래퍼의 전체 높이 사용
+  };
+
+  const responsiveBackCardStyle = {
+    ...backCardStyle,
+    width: '100%',
+    height: '100%', // 래퍼의 전체 높이 사용
+  };
+
   if (currentIndex < 0) {
     return (
-      <div
-        style={{
-          width: 320,
-          height: 420,
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'center',
-          margin: '0 auto',
-          fontSize: 20,
-          color: '#aaa',
-          fontWeight: 600,
-          textAlign: 'center',
-        }}
-      >
-        더 이상 추천 카드가 없습니다.
+      <div style={responsiveContainerStyle}>
+        <div
+          style={{
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            fontSize: 'clamp(18px, 4vw, 24px)',
+            color: '#aaa',
+            fontWeight: 600,
+            textAlign: 'center',
+            padding: '20px',
+          }}
+        >
+          더 이상 추천 카드가 없습니다.
+        </div>
       </div>
     );
   }
 
   return (
-    <div style={{ width: 320, margin: '0 auto', height: 520, position: 'relative' }}>
-      <div style={{ position: 'relative', width: 320, height: 500 }}>
+    <div style={responsiveContainerStyle}>
+      <div style={responsiveCardWrapperStyle}>
         {profiles[currentIndex - 1] && (
           <motion.div
-            style={backCardStyle}
+            style={responsiveBackCardStyle}
             animate={{ scale: 1, opacity: 1 }}
             transition={{ type: 'spring', stiffness: 200, damping: 30 }}
           >
@@ -117,7 +152,7 @@ const SwipeCards: React.FC<SwipeCardsProps> = ({ profiles }) => {
                 width: '100%',
                 height: '100%',
               }}
-              sizes="320px"
+              sizes="(max-width: 768px) 90vw, 400px"
               priority
             />
           </motion.div>
@@ -125,7 +160,7 @@ const SwipeCards: React.FC<SwipeCardsProps> = ({ profiles }) => {
 
         <AnimatePresence key={profile.id}>
           <motion.div
-            style={{ ...cardStyle, x, rotate, touchAction: 'pan-x' }}
+            style={{ ...responsiveCardStyle, x, rotate, touchAction: 'pan-x' }}
             drag="x"
             dragConstraints={{ left: 0, right: 0 }}
             dragElastic={0.18}
@@ -137,9 +172,9 @@ const SwipeCards: React.FC<SwipeCardsProps> = ({ profiles }) => {
             onDragEnd={(_e, info) => {
               setSwipeDirection(null);
               if (info.offset.x > SWIPE_THRESHOLD) {
-                handleSwipe('right');
+                handleSwipe();
               } else if (info.offset.x < -SWIPE_THRESHOLD) {
-                handleSwipe('left');
+                handleSwipe();
               }
             }}
             initial={{ scale: 1, opacity: 1 }}
@@ -161,16 +196,16 @@ const SwipeCards: React.FC<SwipeCardsProps> = ({ profiles }) => {
                 width: '100%',
                 height: '100%',
               }}
-              sizes="320px"
+              sizes="(max-width: 768px) 90vw, 400px"
               priority
             />
             <motion.div style={{ ...likeOverlayStyle, opacity: likeOpacity }}>LIKE</motion.div>
             <motion.div style={{ ...nopeOverlayStyle, opacity: nopeOpacity }}>NOPE</motion.div>
             <div style={infoStyle}>
-              <span style={{ fontSize: '1.2rem', fontWeight: 600, color: '#fff' }}>
+              <span style={{ fontSize: 'clamp(18px, 4vw, 24px)', fontWeight: 600, color: '#fff' }}>
                 {profile.nickname}, {profile.birth && new Date().getFullYear() - new Date(profile.birth).getFullYear()}
               </span>
-              <span style={{ fontSize: '1rem', color: '#EBA8A6' }}>
+              <span style={{ fontSize: 'clamp(14px, 3vw, 18px)', color: '#EBA8A6' }}>
                 {profile.region}, {profile.job}
               </span>
             </div>
