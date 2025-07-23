@@ -116,19 +116,19 @@ const SwipeCards: React.FC<SwipeCardsProps> = ({ profiles }) => {
   if (currentIndex < 0) {
     return (
       <div style={responsiveContainerStyle}>
-        <div
-          style={{
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
+      <div
+        style={{
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
             fontSize: 'clamp(18px, 4vw, 24px)',
-            color: '#aaa',
-            fontWeight: 600,
-            textAlign: 'center',
+          color: '#aaa',
+          fontWeight: 600,
+          textAlign: 'center',
             padding: '20px',
-          }}
-        >
-          더 이상 추천 카드가 없습니다.
+        }}
+      >
+        더 이상 추천 카드가 없습니다.
         </div>
       </div>
     );
