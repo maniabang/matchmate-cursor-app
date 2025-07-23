@@ -8,14 +8,17 @@ Next.js 기반의 PWA 앱으로, Supabase를 이용한 인증과 실시간 기�
 > 이 프로젝트는 실사용 가능한 수준의 구조와 기술 선택을 지향합니다.
 
 ## 🎨 디자인
+
 - [Figma 디자인 링크](https://www.figma.com/design/ywHlf170eMP1f15YoIKz5J/%EC%A0%9C%EB%AA%A9-%EC%97%86%EC%9D%8C?node-id=5-38&t=PYjXfcpGzsrKXlBT-1)
 
 ## 🚀 실행 방법
+
 - 의존성 설치 후 `pnpm dev`로 개발 서버 실행
 - 브라우저에서 http://localhost:3000 접속
 - `.env.local`에 Supabase 프로젝트 정보 필요
 
 ## 🛠️ 사용 기술스택
+
 - **Next.js** (React 기반 프레임워크)
 - **Supabase** (DB, Auth, Storage)
 - **React Query** (서버 상태 관리)
@@ -31,6 +34,7 @@ Next.js 기반의 PWA 앱으로, Supabase를 이용한 인증과 실시간 기�
 - **API 라우트(핸들러)는 `src/app/api/` 하위에 위치해야 `/api/xxx` 엔드포인트로 동작합니다.**
 
 ## 1. Supabase 연동 준비
+
 1. [Supabase](https://app.supabase.com/)에서 새 프로젝트 생성
 2. Project Settings > API에서 아래 정보 복사
    - Project URL
@@ -42,13 +46,13 @@ Next.js 기반의 PWA 앱으로, Supabase를 이용한 인증과 실시간 기�
    ```
 
 ## 2. 회원가입/로그인 연동 (이메일)
+
 - **SSR/CSR 인증 통합:**
   - 회원가입 단계에서는 CSR (Local Storage 기반)
   - SSR(서버 컴포넌트, API Route 등)에서는 쿠키 기반 인증을 처리합니다.
 
-
-
 ## 5. 배포 (Vercel)
+
 - GitHub에 코드 push
 - [Vercel](https://vercel.com/)에서 새 프로젝트 Import
 - 환경변수(위 .env.local 내용) 등록

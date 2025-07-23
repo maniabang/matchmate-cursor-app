@@ -29,13 +29,6 @@ export default async function LikesSentPage() {
   // 3. 해당 id의 프로필만 조회
   const { data: profiles = [] } = await supabase.from('profiles').select('*').in('id', receiverIds);
 
-  // 4. 랜덤 2개 추출
-  function getRandomItems(arr: any, n: number) {
-    const shuffled = arr.sort(() => 0.5 - Math.random());
-    return shuffled.slice(0, n);
-  }
-  const randomProfiles = getRandomItems(profiles, 2);
-
   return (
     <div style={{ position: 'relative', minHeight: '100vh', background: '#fff' }}>
       <div style={{ position: 'fixed', top: 0, left: 0, width: '100vw', zIndex: 10 }}>
@@ -49,7 +42,7 @@ export default async function LikesSentPage() {
           overflowY: 'auto',
         }}
       >
-        <LikesSent profiles={randomProfiles || []} />
+        <LikesSent profiles={profiles || []} />
       </div>
       <div style={{ position: 'fixed', bottom: 0, left: 0, width: '100vw', zIndex: 10 }}>
         <BottomNav activeTab="match" user={user} />
