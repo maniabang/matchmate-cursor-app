@@ -5,12 +5,11 @@ import { useUserStore } from '@/store/userStore';
 import { useEffect } from 'react';
 import Image from 'next/image';
 import { Profile } from '@/api/types';
-import FilterModalContent from '../home/FilterModalContent';
-import { useModalStore } from '@/store/modalStore';
 
 interface NavBarProps {
-  user: Profile;
+  user: Profile | null;
   title?: string;
+  onFilterClick?: () => void;
 }
 
 const FilterIcon = ({ color = '#EBA8A6' }: { color?: string }) => (
@@ -24,33 +23,26 @@ const FilterIcon = ({ color = '#EBA8A6' }: { color?: string }) => (
     strokeLinejoin="round"
     viewBox="0 0 24 24"
   >
-    <line x1="4" y1="21" x2="20" y2="21" />
-    <line x1="8" y1="17" x2="16" y2="17" />
-    <line x1="10" y1="13" x2="14" y2="13" />
-    <line x1="12" y1="3" x2="12" y2="13" />
-    <circle cx="12" cy="7" r="2.5" />
+    <path d="M22 3H2l8 9.46V19l4 2v-8.54L22 3z" />
   </svg>
 );
 
-export default function NavBar({ user, title = '' }: NavBarProps) {
+export default function NavBar({ user, title = '', onFilterClick }: NavBarProps) {
   const setUser = useUserStore((state) => state.setUser);
-  const openModal = useModalStore((state) => state.openModal);
+
   useEffect(() => {
     if (user) setUser(user);
   }, [user, setUser]);
 
   const profileImg = user?.photo_urls?.[0] || '/images/profile-default-female.svg';
 
-  const onFilterClick = () => {
-    openModal(<FilterModalContent />, { title: '필터' });
-  };
   return (
     <nav
       style={{
         height: 56,
         display: 'flex',
-        alignItems: 'center',
         justifyContent: 'space-between',
+        alignItems: 'center',
         borderBottom: '1px solid #eee',
         background: '#fff',
         padding: '0 16px',
@@ -64,9 +56,24 @@ export default function NavBar({ user, title = '' }: NavBarProps) {
       </div>
       <div style={{ flex: 2, textAlign: 'center', fontWeight: 600, fontSize: '1.1rem', color: '#333' }}>{title}</div>
       <div style={{ flex: 1, display: 'flex', justifyContent: 'flex-end', alignItems: 'center' }}>
-        <button onClick={onFilterClick} style={{ background: 'none', border: 'none', padding: 0, marginRight: 8 }}>
-          <FilterIcon />
-        </button>
+        {onFilterClick && (
+          <button
+            onClick={onFilterClick}
+            style={{
+              background: 'none',
+              border: 'none',
+              padding: '8px',
+              marginRight: '8px',
+              cursor: 'pointer',
+              borderRadius: '4px',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+            }}
+          >
+            <FilterIcon />
+          </button>
+        )}
         <Link href={user?.id ? `/profile/${user?.id}` : '/login'}>
           <Image
             src={profileImg}
