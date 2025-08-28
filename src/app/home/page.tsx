@@ -66,9 +66,8 @@ export default function Home() {
 
   const handleApplyFilter = async (latestFilters: FilterOptions) => {
     if (user) {
-      // 모달에서 전달받은 최신 필터 값을 state에 설정하고 사용
+      // 모달에서 전달받은 최신 필터 값을state에 설정하고 사용
       setFilters(latestFilters);
-      console.log('적용할 필터:', latestFilters);
       await loadFilteredProfiles(user.id, latestFilters);
     }
     closeModal();
