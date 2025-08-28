@@ -1,18 +1,39 @@
-"use client";
-import { useParams } from "next/navigation";
-import { useProfile } from '@/api/profile';
+'use client';
+import { useParams } from 'next/navigation';
+import { getProfile } from '@/api/profile';
 import ProfileView from '../ProfileView';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { useHydratedUserStore } from '@/store/useHydratedUserStore';
 import { useHydratedMyProfileStore } from '@/store/useHydratedUserStore';
+import type { Profile } from '@/api/types';
 
 export default function ProfileDetailPage() {
   const { id } = useParams();
-  const { data: profile, isLoading, error } = useProfile(id as string);
-  
+  const [profile, setProfile] = useState<Profile | null>(null);
+  const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+
   // persist가 적용된 훅 사용
   const { user } = useHydratedUserStore();
   const { setMyProfile } = useHydratedMyProfileStore();
+
+  useEffect(() => {
+    if (!id) return;
+
+    const loadProfile = async () => {
+      try {
+        setIsLoading(true);
+        const profileData = await getProfile(id as string);
+        setProfile(profileData);
+      } catch {
+        setError('프로필을 불러올 수 없습니다.');
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    loadProfile();
+  }, [id]);
 
   useEffect(() => {
     if (user?.id === id && profile) {
