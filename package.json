@@ -8,7 +8,9 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "figma": "cursor-talk-to-figma-mcp --server=vps.sonnylab.com"
+    "figma": "cursor-talk-to-figma-mcp --server=vps.sonnylab.com",
+    "generate-icons": "node generate-icons.js",
+    "build:pwa": "NODE_ENV=production next build"
   },
   "dependencies": {
     "@react-spring/web": "^10.0.1",
@@ -23,6 +25,7 @@
     "react-dom": "^19.0.0",
     "react-tinder-card": "^1.6.4",
     "styled-components": "^6.1.18",
+    "workbox-window": "^7.3.0",
     "zustand": "^5.0.5"
   },
   "devDependencies": {

@@ -41,6 +41,9 @@ dependencies:
   styled-components:
     specifier: ^6.1.18
     version: 6.1.19(react-dom@19.1.0)(react@19.1.0)
+  workbox-window:
+    specifier: ^7.3.0
+    version: 7.3.0
   zustand:
     specifier: ^5.0.5
     version: 5.0.6(@types/react@19.1.8)(react@19.1.0)
@@ -1572,8 +1575,8 @@ packages:
       '@jridgewell/resolve-uri': 3.1.2
       '@jridgewell/sourcemap-codec': 1.5.4
 
-  /@modelcontextprotocol/sdk@1.15.1:
-    resolution: {integrity: sha512-W/XlN9c528yYn+9MQkVjxiTPgPxoxt+oczfjHBDsJx0+59+O7B75Zhsp0B16Xbwbz8ANISDajh6+V7nIcPMc5w==}
+  /@modelcontextprotocol/sdk@1.17.4:
+    resolution: {integrity: sha512-zq24hfuAmmlNZvik0FLI58uE5sriN0WWsQzIlYnzSuKDAHFqJtBFrl/LfB1NLgJT5Y7dEBzaX4yAKqOPrcetaw==}
     engines: {node: '>=18'}
     dependencies:
       ajv: 6.12.6
@@ -3250,10 +3253,10 @@ packages:
     resolution: {integrity: sha512-iR7Vg8PkGzxuDaQkIdaqJT/pG5z/autttnrRVWRvoPqXomKm34XO/pXFtUuWmVh3BWRchdP8kfIN/Y3t08tQlA==}
     hasBin: true
     dependencies:
-      '@modelcontextprotocol/sdk': 1.15.1
+      '@modelcontextprotocol/sdk': 1.17.4
       uuid: 11.1.0
       ws: 8.18.3
-      zod: 4.0.5
+      zod: 4.1.5
     transitivePeerDependencies:
       - bufferutil
       - supports-color
@@ -6981,6 +6984,10 @@ packages:
     resolution: {integrity: sha512-GDtFRF7Yg3DD859PMbPAYPeJyg5gJYXuBQAC+wyrWuuXgpfoOrIQIvFRZnQ7+czTIQjIr1DhLEGFzZanAT/3bQ==}
     dev: false
 
+  /workbox-core@7.3.0:
+    resolution: {integrity: sha512-Z+mYrErfh4t3zi7NVTvOuACB0A/jA3bgxUN3PwtAVHvfEsZxV9Iju580VEETug3zYJRc0Dmii/aixI/Uxj8fmw==}
+    dev: false
+
   /workbox-expiration@6.6.0:
     resolution: {integrity: sha512-baplYXcDHbe8vAo7GYvyAmlS4f6998Jff513L4XvlzAOxcl8F620O91guoJ5EOf5qeXG4cGdNZHkkVAPouFCpw==}
     dependencies:
@@ -7076,6 +7083,13 @@ packages:
       workbox-core: 6.6.0
     dev: false
 
+  /workbox-window@7.3.0:
+    resolution: {integrity: sha512-qW8PDy16OV1UBaUNGlTVcepzrlzyzNW/ZJvFQQs2j2TzGsg6IKjcpZC1RSquqQnTOafl5pCj5bGfAHlCjOOjdA==}
+    dependencies:
+      '@types/trusted-types': 2.0.7
+      workbox-core: 7.3.0
+    dev: false
+
   /wrappy@1.0.2:
     resolution: {integrity: sha512-l4Sp/DRseor9wL6EvV2+TuQn63dMkPjZ/sp9XkghTEbV9KlPS1xUsZ3u7/IQO4wxtcFB4bgpQPRcR3QCvezPcQ==}
 
@@ -7117,8 +7131,8 @@ packages:
     resolution: {integrity: sha512-gzUt/qt81nXsFGKIFcC3YnfEAx5NkunCfnDlvuBSSFS02bcXu4Lmea0AFIUwbLWxWPx3d9p8S5QoaujKcNQxcQ==}
     dev: true
 
-  /zod@4.0.5:
-    resolution: {integrity: sha512-/5UuuRPStvHXu7RS+gmvRf4NXrNxpSllGwDnCBcJZtQsKrviYXm54yDGV2KYNLT5kq0lHGcl7lqWJLgSaG+tgA==}
+  /zod@4.1.5:
+    resolution: {integrity: sha512-rcUUZqlLJgBC33IT3PNMgsCq6TzLQEG/Ei/KTCU0PedSWRMAXoOUN+4t/0H+Q8bdnLPdqUYnvboJT0bn/229qg==}
     dev: true
 
   /zustand@5.0.6(@types/react@19.1.8)(react@19.1.0):
