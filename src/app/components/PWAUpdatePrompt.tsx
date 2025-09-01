@@ -9,6 +9,7 @@ export default function PWAUpdatePrompt() {
   useEffect(() => {
     if (typeof window !== 'undefined' && 'serviceWorker' in navigator && window.workbox !== undefined) {
       const wb = window.workbox;
+      console.log(wb);
 
       const promptNewVersionAvailable = () => {
         setShowUpdatePrompt(true);

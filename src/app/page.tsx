@@ -1,28 +1,21 @@
-"use client";
-import MainButtonGroup from "./components/MainButtonGroup";
+'use client';
+import MainButtonGroup from './components/MainButtonGroup';
 
 export default function Welcome() {
   return (
     <div style={{ position: 'relative', width: '100vw', height: '100vh', overflow: 'hidden' }}>
-      {/* 배경 영상 */}
-      <video
-        autoPlay
-        loop
-        muted
-        playsInline
+      {/* 배경 이미지 대체 */}
+      <div
         style={{
           position: 'absolute',
           top: 0,
           left: 0,
           width: '100vw',
           height: '100vh',
-          objectFit: 'cover',
+          background: 'linear-gradient(180deg, rgba(235,168,166,0.3), rgba(227,151,148,0.3))',
           zIndex: 0,
         }}
-      >
-        <source src="/videos/welcome-bg.mp4" type="video/mp4" />
-        브라우저가 비디오 태그를 지원하지 않습니다.
-      </video>
+      />
       {/* 왼쪽 상단 로고 */}
       <span
         style={{

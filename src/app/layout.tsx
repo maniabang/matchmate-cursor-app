@@ -1,4 +1,4 @@
-import type { Metadata } from 'next';
+import type { Metadata, Viewport } from 'next';
 import { Inter } from 'next/font/google';
 import './globals.css';
 import Modal from './components/Modal';
@@ -11,7 +11,6 @@ export const metadata: Metadata = {
   title: 'MatchMate',
   description: 'Find your perfect match',
   manifest: '/manifest.webmanifest',
-  themeColor: '#6366f1',
   appleWebApp: {
     capable: true,
     statusBarStyle: 'default',
@@ -31,6 +30,10 @@ export const metadata: Metadata = {
     title: 'MatchMate - 완벽한 매칭을 찾아보세요',
     description: '당신의 완벽한 매치를 찾아보세요. 매칭, 메시지, 만남까지 한번에!',
   },
+};
+
+export const viewport: Viewport = {
+  themeColor: '#6366f1',
 };
 
 export default function RootLayout({
@@ -59,7 +62,6 @@ export default function RootLayout({
         <link rel="icon" type="image/png" sizes="32x32" href="/icons/icon-32.png" />
         <link rel="icon" type="image/png" sizes="16x16" href="/icons/icon-16.png" />
         <link rel="manifest" href="/manifest.webmanifest" />
-        <link rel="mask-icon" href="/icons/safari-pinned-tab.svg" color="#6366f1" />
         <link rel="shortcut icon" href="/favicon.ico" />
 
         <meta name="twitter:card" content="summary" />
