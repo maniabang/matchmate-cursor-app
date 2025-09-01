@@ -1,4 +1,5 @@
 import { supabase } from '@/lib/supabase';
+import { useMutation } from '@tanstack/react-query';
 import type { Profile, ProfileStep1, ProfileStep2, ProfileStep3, ProfileStep4, ProfileStep5 } from './types';
 
 export async function getProfile(id: string): Promise<Profile | null> {
@@ -133,31 +134,23 @@ export async function createProfile(profile: Profile): Promise<boolean> {
   return true;
 }
 
-export async function updateProfile(id: string, updates: Partial<Profile>): Promise<boolean> {
-  const { error } = await supabase.from('profiles').update(updates).eq('id', id);
-  if (error) {
-    console.error('프로필 업데이트 실패:', error);
-    return false;
-  }
-  return true;
+export function useCreateProfile(options?: any) {
+  return useMutation<Profile, Error, Profile, unknown>({
+    mutationFn: createProfile,
+    ...options,
+  });
 }
 
-export async function updateProfileStep1(id: string, step1: ProfileStep1): Promise<boolean> {
-  return updateProfile(id, step1);
-}
-
-export async function updateProfileStep2(id: string, step2: ProfileStep2): Promise<boolean> {
-  return updateProfile(id, step2);
-}
-
-export async function updateProfileStep3(id: string, step3: ProfileStep3): Promise<boolean> {
-  return updateProfile(id, step3);
-}
-
-export async function updateProfileStep4(id: string, step4: ProfileStep4): Promise<boolean> {
-  return updateProfile(id, step4);
-}
-
-export async function updateProfileStep5(id: string, step5: ProfileStep5): Promise<boolean> {
-  return updateProfile(id, step5);
+export function useUpdateProfile() {
+  return useMutation<Profile, Error, Partial<Profile>, unknown>({
+    mutationFn: async (profileData) => {
+      const res = await fetch('/api/profile', {
+        method: 'PATCH',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(profileData),
+      });
+      if (!res.ok) throw new Error('프로필 수정 실패');
+      return res.json();
+    },
+  });
 }
