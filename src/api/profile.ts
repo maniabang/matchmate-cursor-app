@@ -1,6 +1,6 @@
 import { supabase } from '@/lib/supabase';
-import { useMutation } from '@tanstack/react-query';
-import type { Profile, ProfileStep1, ProfileStep2, ProfileStep3, ProfileStep4, ProfileStep5 } from './types';
+import { useMutation, useQuery } from '@tanstack/react-query';
+import type { Profile } from './types';
 
 export async function getProfile(id: string): Promise<Profile | null> {
   const { data, error } = await supabase.from('profiles').select('*').eq('id', id).single();
@@ -123,6 +123,18 @@ export async function getBasicProfiles(
     console.error('기본 프로필 조회 중 예외 발생:', error);
     return [];
   }
+}
+
+export function useProfile(id: string) {
+  return useQuery({
+    queryKey: ['profile', id],
+    queryFn: async () => {
+      const res = await fetch(`/api/profile?id=${id}`);
+      if (!res.ok) throw new Error('프로필을 불러올 수 없습니다');
+      return res.json();
+    },
+    enabled: !!id,
+  });
 }
 
 export async function createProfile(profile: Profile): Promise<boolean> {
