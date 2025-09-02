@@ -2,6 +2,7 @@ import type { NextConfig } from 'next';
 import withPWA from 'next-pwa';
 
 const nextConfig: NextConfig = {
+  compiler: { styledComponents: true },
   typescript: {
     // 빌드 시 타입 에러 무시 (PWA 테스트용)
     ignoreBuildErrors: true,
